@@ -7,7 +7,8 @@ namespace Domain.Entities
     {
         [Key]
         public int Id { get; set; }
-        [MaxLength(100)] public string Name { get; set; }
+        [MaxLength(100)] 
+        public string Name { get; set; }
         public ICollection<Game>? Games { get; set; }
     }
 }
