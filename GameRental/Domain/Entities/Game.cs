@@ -9,8 +9,7 @@ namespace Domain
     {
         [Key] public int Id { get; set; }
         [MaxLength(100)] public string Name { get; set; }
-        public int? GenreId { get; set; }
-        [ForeignKey("GenreId")]
-        public Genre? Genre { get; set; }
+        public double? Price { get; set; }
+        public ICollection<Genre>? Genres { get; set; }
     }
 }
