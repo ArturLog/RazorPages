@@ -29,20 +29,21 @@ namespace Application.Repositories.Classes
 
         public async Task<bool> Update(Genre entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
-            context.Genres.Update(entity);
-            var changes = await context.SaveChangesAsync();
+            var genre = await context.Genres.FindAsync(entity.Id);
+            if (genre is null)
+                return false;
+            genre.Name = entity.Name;
+            await context.SaveChangesAsync();
             return true;
         }
 
         public async Task<bool> Delete(int id)
         {
-            var genre = await context.Genres.FirstOrDefaultAsync(x => x.Id == id);
-            if (genre == null)
+            var genre = await context.Genres.FindAsync(id);
+            if (genre is null)
                 return false;
             context.Genres.Remove(genre);
-            var changes = await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
             return true;
         }
 

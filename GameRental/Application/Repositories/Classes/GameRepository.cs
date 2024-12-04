@@ -28,12 +28,25 @@ namespace Application.Repositories.Classes
 
         public async Task<bool> Update(Game entity)
         {
-            throw new NotImplementedException();
+            var game = await context.Games.FindAsync(entity.Id);
+            if (game is null)
+                return false;
+            game.Genres = entity.Genres;
+            game.Description = entity.Description;
+            game.Title = entity.Title;
+            game.ReleaseDate = entity.ReleaseDate;
+            await context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var game = await context.Games.FindAsync(id);
+            if (game is null)
+                return false;
+            context.Games.Remove(game);
+            await context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<bool> Delete(string id)
