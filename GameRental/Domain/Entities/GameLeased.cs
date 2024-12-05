@@ -13,6 +13,8 @@ namespace Domain.Entities
         public DateTime DateTo { get; set; }
         public int? GameId { get; set; }
         [ForeignKey("GameId")]
+        public double? Price { get; set; }
+        [Range(1, 100)]
         public Game? Game { get; set; }
         public string? RenterId { get; set; }
         [ForeignKey("UserId")]
