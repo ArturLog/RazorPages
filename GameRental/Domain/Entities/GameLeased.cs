@@ -11,13 +11,14 @@ namespace Domain.Entities
         public DateTime DateFrom { get; set; }
         [Column(TypeName = "Date")]
         public DateTime DateTo { get; set; }
+        [Range(1, 1000)]
+        public double? Price { get; set; }
+        public bool? Active { get; set; }
         public int? GameId { get; set; }
         [ForeignKey("GameId")]
-        public double? Price { get; set; }
-        [Range(1, 100)]
         public Game? Game { get; set; }
-        public string? RenterId { get; set; }
+        public int? GameOfferId { get; set; }
         [ForeignKey("UserId")]
-        public ApplicationUser? Renter { get; set; }
+        public GameOffer? GameOffer { get; set; }
     }
 }
