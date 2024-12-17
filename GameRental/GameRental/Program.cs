@@ -1,10 +1,8 @@
-using GameRental.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data;
 using System.Globalization;
-using ApplicationDbContext = GameRental.Data.ApplicationDbContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //    options.UseSqlServer(connectionString));
 
-builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddInfrastructureServices();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
