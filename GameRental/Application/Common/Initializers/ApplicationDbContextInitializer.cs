@@ -77,7 +77,7 @@ namespace Application.Common.Initializers
                     DateFrom = faker.Date.Past(),
                     DateTo = faker.Date.Future(),
                     GameId = gameGameLeased.Id,
-                    RenterId = userLeased.Id,
+                    //RenterId = userLeased.Id,
                     Price = faker.Random.Double(1, 1000)
                 };
                 gameLeased.Add(leased);

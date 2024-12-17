@@ -20,5 +20,8 @@ namespace Domain.Entities
         public int? GameOfferId { get; set; }
         [ForeignKey("UserId")]
         public GameOffer? GameOffer { get; set; }
+        public int? RenterId { get; set; }
+        [ForeignKey("RenterId")]
+        public ApplicationUser? Renter { get; set; }
     }
 }

@@ -17,5 +17,7 @@ namespace Domain.Entities
         public int? GameId { get; set; }
         [ForeignKey("GameId")]
         public Game? Game { get; set; }
+        public ICollection<GameLeased>? LeasedGames { get; set; } = [];
+
     }
 }

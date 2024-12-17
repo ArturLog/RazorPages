@@ -35,6 +35,8 @@ namespace Infrastructure.Data
                 .HasMany(u => u.OfferGames)
                 .WithOne(o => o.Owner)
                 .OnDelete(DeleteBehavior.SetNull);
+
+
             builder.Entity<Game>()
                 .HasMany(g => g.Leases)
                 .WithOne(l => l.Game)
@@ -46,6 +48,12 @@ namespace Infrastructure.Data
             builder.Entity<Game>()
                 .HasMany(g => g.Genres)
                 .WithMany(g => g.Games);
+
+            builder.Entity<GameOffer>()
+                .HasMany(l => GamesLeased)
+                .WithOne(l => l.GameOffer)
+                .OnDelete(DeleteBehavior.SetNull);
+
         }
         public async Task<Guid> SaveChangesAsync()
         {
