@@ -50,8 +50,8 @@ namespace Infrastructure.Data
                 .WithMany(g => g.Games);
 
             builder.Entity<GameOffer>()
-                .HasMany(l => GamesLeased)
-                .WithOne(l => l.GameOffer)
+                .HasMany(l => l.LeasedGames)
+                .WithOne(o => o.GameOffer)
                 .OnDelete(DeleteBehavior.SetNull);
 
         }
