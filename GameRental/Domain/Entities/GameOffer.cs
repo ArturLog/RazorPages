@@ -6,17 +6,28 @@ namespace Domain.Entities
     public class GameOffer
     {
         public int Id { get; set; }
-        [Range(1, 1000)]
-        public double? Price { get; set; }
-        [Range(1, 100)]
-        public int? Amount { get; set; }
-        public string? OwnerId { get; set; }
+
+        [Required(ErrorMessage = "Game price are required")]
+        [Range(0, double.MaxValue, ErrorMessage = "Game price must be a positive number")]
+        public double Price { get; set; }
+
+        [Required(ErrorMessage = "Game amount is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Game amount must be a positive number")]
+        public int Amount { get; set; }
+
+        [Required(ErrorMessage = "Owner is required")]
+        [Display(Name = "Owner")]
+        public string OwnerId { get; set; }
         [ForeignKey("OwnerId")]
-        public ApplicationUser? Owner { get; set; }
-        [Range(0.01, 1000000.00)]
-        public int? GameId { get; set; }
+        public ApplicationUser Owner { get; set; }
+
+        [Required(ErrorMessage = "Game is required")]
+        [Display(Name = "Game")]
+        public int GameId { get; set; }
+
         [ForeignKey("GameId")]
-        public Game? Game { get; set; }
+        public Game Game { get; set; }
+
         public ICollection<GameLeased>? LeasedGames { get; set; } = [];
 
     }
