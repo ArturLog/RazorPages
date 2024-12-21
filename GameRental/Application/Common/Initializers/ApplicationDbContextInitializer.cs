@@ -23,7 +23,7 @@ namespace Application.Common.Initializers
                 PasswordHash = "admin"
             };
             users.Add(user);
-            context.Users.AddRange(users);
+            context.ApplicationUsers.AddRange(users);
             await context.SaveChangesAsync();
 
             for(int i = 0; i < amountOfGenres; i++)

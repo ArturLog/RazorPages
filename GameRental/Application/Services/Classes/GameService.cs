@@ -1,39 +1,64 @@
-﻿using Application.Repositories.Interfaces;
-using Domain.Entities;
+﻿using Application.ModelsDTO;
+using Application.Services.Interfaces;
+using Domain.Repositories.Interfaces;
 
 namespace Application.Services.Classes
 {
-    public class GameService
+    public class GameService : IGameService
     {
-        private readonly ICrudRepository<Game> _gameRepository;
-        public GameService(ICrudRepository<Game> gameRepository)
+        private readonly IGameRepository _repository;
+        public GameService(IGameRepository gameRepository)
         {
-            _gameRepository = gameRepository;
+            _repository = gameRepository;
         }
 
-        public async Task<IEnumerable<Game>> GetAllGames()
+        public async Task<List<GameDTO?>> GetGamesAsync()
         {
-            return await _gameRepository.ReadAll();
+            var game = await _repository.GetAllAsync();
+            return game.Select(g => new GameDTO
+            {
+                Id = g.Id,
+                Title = g.Title,
+                Description = g.Description,
+                ReleaseDate = g.ReleaseDate.HasValue ? DateOnly.FromDateTime(g.ReleaseDate.Value) : (DateOnly?)null
+            }).ToList();
         }
 
-        public async Task<Game?> GetGameById(int id)
+        public async Task<GameDTO?> GetGameByIdAsync(int id)
         {
-            return await _gameRepository.Read(id);
+            var game = await _repository.GetByIdAsync(id);
+            return game is not null ? new GameDTO
+            {
+                Id = game.Id,
+                Title = game.Title,
+                Description = game.Description,
+                ReleaseDate = game.ReleaseDate.HasValue ? DateOnly.FromDateTime(game.ReleaseDate.Value) : (DateOnly?)null
+            } : null;
         }
 
-        public async Task<Game> AddGame(Game game)
+        public Task<GameDTO?> GetByIdAsync(int id)
         {
-            return await _gameRepository.Create(game);
+            throw new NotImplementedException();
         }
 
-        public async Task<bool> UpdateGame(Game game)
+        public Task<IEnumerable<GameDTO?>> GetAllAsync()
         {
-            return await _gameRepository.Update(game);
+            throw new NotImplementedException();
         }
 
-        public async Task<bool> DeleteGame(int id)
+        public Task AddAsync(GameDTO gameDto)
         {
-            return await _gameRepository.Delete(id);
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(GameDTO gameDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
