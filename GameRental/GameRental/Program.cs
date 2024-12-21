@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data;
 using System.Globalization;
+using Application.Repositories.Classes;
+using Application.Repositories.Interfaces;
+using Application.Services.Classes;
 using GameRental.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
@@ -33,9 +36,11 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AuthorizeFolder("/Pages/Account");
+    options.Conventions.AuthorizeFolder("/");
 });
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
@@ -58,11 +63,9 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -70,5 +73,21 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+//API
+
+//Endpoint /games
+app.MapMethods("/api/games", new[] { "GET" }, async (HttpContext context, GameService service) =>
+{
+    if (context.Request.Method == "GET")
+    {
+        var games = await service.GetAllGames();
+        return Results.Ok(games);
+    }
+    return Results.BadRequest();
+});
 
 app.Run();
