@@ -20,6 +20,9 @@ namespace Domain.Entities
         [DisplayFormat(DataFormatString = "0:yyyy-MM-dd", ApplyFormatInEditMode = true)]
         public DateTime? ReleaseDate { get; set; }
         
+        [Display(Name = "Image")]
+        public byte[]? Image { get; set; }
+        
         public ICollection<Genre>? Genres { get; set; } = [];
         public ICollection<GameOffer>? Offers { get; set; } = [];
         public ICollection<GameLeased>? Leases { get; set; } = [];

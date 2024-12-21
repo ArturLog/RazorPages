@@ -1,0 +1,107 @@
+﻿@page
+@using System.Globalization
+@model GameRental.Pages.GameAccount.IndexModel
+@{
+    ViewData["Title"] = "Gamer profile";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <div>
+        <h2>Games offer</h2>
+        <a class="nav-link text-dark" asp-page="/GameAccount/CreateGameOffer" title="Create offer">Create offer</a>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Genre</th>
+                <th>Price</th>
+                <th>Amount</th>
+                @* <th>Actions</th> *@
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var gameOffer in Model.GameOffers)
+            {
+                <tr>
+                    <td>
+                        @if (gameOffer.Game.Image != null)
+                        {
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(gameOffer.Game.Image)"
+                                 alt="Game image"
+                                 width="80" height="80"
+                                 style="object-fit: cover; border-radius: 5%; vertical-align: middle;"/>
+                        }
+                    </td>
+                    <td>@gameOffer.Game.Title</td>
+                    <td>@gameOffer.Game.Description</td>
+                    <td>@gameOffer.Game.Genres</td>
+                    <td>@gameOffer.Price.ToString("N0", CultureInfo.CurrentCulture)</td>
+                    <td>@gameOffer.Amount</td>
+                    @*             <td>
+                <a asp-page="/Players/Details" asp-route-id="@player.Id" class="btn btn-info">Details</a>
+                <a asp-page="/Players/Edit" asp-route-id="@player.Id" class="btn btn-warning">Edit</a>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@player.Id" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td> *@
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h2>Leased games</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Genre</th>
+                <th>Price</th>
+                <th>Active</th>
+                <th>Leased date from</th>
+                <th>Leased date to</th>
+                <th>Active</th>
+                <th>Owner</th>
+
+                @* <th>Actions</th> *@
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var gameLeased in Model.LeasedGames)
+            {
+                <tr>
+                    <td>
+                        @if (gameLeased.Game.Image != null)
+                        {
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(gameLeased.Game.Image)"
+                                 alt="Game image"
+                                 width="80" height="80"
+                                 style="object-fit: cover; border-radius: 5%; vertical-align: middle;"/>
+                        }
+                    </td>
+                    <td>@gameLeased.Game.Title</td>
+                    <td>@gameLeased.Game.Description</td>
+                    <td>@gameLeased.Game.Genres</td>
+                    <td>@gameLeased.Price.ToString("N0", CultureInfo.CurrentCulture)</td>
+                    <td>@gameLeased.Active</td>
+                    <td>@gameLeased.DateFrom</td>
+                    <td>@gameLeased.DateTo</td>
+                    <td>@gameLeased.GameOffer.Owner.Email</td>
+                    @*             <td>
+                <a asp-page="/Players/Details" asp-route-id="@player.Id" class="btn btn-info">Details</a>
+                <a asp-page="/Players/Edit" asp-route-id="@player.Id" class="btn btn-warning">Edit</a>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@player.Id" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td> *@
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,8 +1,48 @@
 ﻿@page
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model GameRental.Pages.Games.IndexModel
-@{
-    ViewData["Title"] = "Games";
-}
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<h1>Games offer</h1>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Genre</th>
+        <th>Price</th>
+        <th>Amount</th>
+        @* <th>Actions</th> *@
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var gameOffer in Model.GameOffers)
+    {
+        <tr>
+            <td>
+                @if (gameOffer.Game.Image != null)
+                {
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(gameOffer.Game.Image)" 
+                         alt="Game image" 
+                         width="80" height="80" 
+                         style="object-fit: cover; border-radius: 5%; vertical-align: middle;" />
+                }
+            </td>
+            <td>@gameOffer.Game.Title</td>
+            <td>@gameOffer.Game.Description</td>
+            <td>@gameOffer.Game.Genres</td>
+            <td>@gameOffer.Price.ToString("N0", CultureInfo.CurrentCulture)</td>
+            <td>@gameOffer.Amount</td>
+@*             <td>
+                <a asp-page="/Players/Details" asp-route-id="@player.Id" class="btn btn-info">Details</a>
+                <a asp-page="/Players/Edit" asp-route-id="@player.Id" class="btn btn-warning">Edit</a>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@player.Id" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td> *@
+        </tr>
+    }
+    </tbody>
+</table>
