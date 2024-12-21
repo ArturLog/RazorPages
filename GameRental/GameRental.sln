@@ -5,13 +5,15 @@ VisualStudioVersion = 17.11.35431.28
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameRental", "GameRental\GameRental.csproj", "{F9342C2E-165B-4374-AC0E-188C64CC19A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{FBE3EAD7-7A02-436F-BC7D-3614056E5A29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{FBE3EAD7-7A02-436F-BC7D-3614056E5A29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{15B484CF-48EC-4D7F-AA81-2F452570C958}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{15B484CF-48EC-4D7F-AA81-2F452570C958}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{73C6E5B7-9EF6-4254-A625-93110C5B001A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{73C6E5B7-9EF6-4254-A625-93110C5B001A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{3DFD6074-19A4-41F5-980E-B7B2CA27635B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GUI", "GUI\GUI.csproj", "{3DFD6074-19A4-41F5-980E-B7B2CA27635B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAPI", "ConsoleAPI\ConsoleAPI.csproj", "{9404026A-6195-4FA4-B330-F80899A5E52B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{3DFD6074-19A4-41F5-980E-B7B2CA27635B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DFD6074-19A4-41F5-980E-B7B2CA27635B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DFD6074-19A4-41F5-980E-B7B2CA27635B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9404026A-6195-4FA4-B330-F80899A5E52B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9404026A-6195-4FA4-B330-F80899A5E52B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9404026A-6195-4FA4-B330-F80899A5E52B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9404026A-6195-4FA4-B330-F80899A5E52B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
