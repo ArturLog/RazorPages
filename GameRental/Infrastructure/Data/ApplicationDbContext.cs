@@ -15,7 +15,7 @@ namespace Infrastructure.Data
         public DbSet<Genre> Genres { get; set; }
         public DbSet<GameLeased> GamesLeased { get; set; }
         public DbSet<GameOffer> GamesOffered { get; set; }
-        public DbSet<ApplicationUser> Users { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

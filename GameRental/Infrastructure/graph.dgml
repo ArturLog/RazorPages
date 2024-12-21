@@ -28,7 +28,7 @@
     <Node Id="Genres" Label="Genres" Category="Table" Group="Collapsed" />
     <Node Id="Genres_Id" Label="Id" Category="Field Primary" Description="bigint" />
     <Node Id="Genres_Name" Label="Name" Category="Field" Description="text" />
-    <Node Id="Users" Label="Users" Category="Table" Group="Collapsed" />
+    <Node Id="ApplicationUsers" Label="ApplicationUsers" Category="Table" Group="Collapsed" />
     <Node Id="Users_Id" Label="Id" Category="Field Primary" Description="text" />
     <Node Id="Users_UserName" Label="UserName" Category="Field Optional" Description="text" />
     <Node Id="Users_NormalizedUserName" Label="NormalizedUserName" Category="Field Optional" Description="text" />
@@ -79,22 +79,22 @@
     <Link Source="Database" Target="Genres" Category="Contains" />
     <Link Source="Genres" Target="Genres_Id" Category="Contains" />
     <Link Source="Genres" Target="Genres_Name" Category="Contains" />
-    <Link Source="Database" Target="Users" Category="Contains" />
-    <Link Source="Users" Target="Users_Id" Category="Contains" />
-    <Link Source="Users" Target="Users_UserName" Category="Contains" />
-    <Link Source="Users" Target="Users_NormalizedUserName" Category="Contains" />
-    <Link Source="Users" Target="Users_Email" Category="Contains" />
-    <Link Source="Users" Target="Users_NormalizedEmail" Category="Contains" />
-    <Link Source="Users" Target="Users_EmailConfirmed" Category="Contains" />
-    <Link Source="Users" Target="Users_PasswordHash" Category="Contains" />
-    <Link Source="Users" Target="Users_SecurityStamp" Category="Contains" />
-    <Link Source="Users" Target="Users_ConcurrencyStamp" Category="Contains" />
-    <Link Source="Users" Target="Users_PhoneNumber" Category="Contains" />
-    <Link Source="Users" Target="Users_PhoneNumberConfirmed" Category="Contains" />
-    <Link Source="Users" Target="Users_TwoFactorEnabled" Category="Contains" />
-    <Link Source="Users" Target="Users_LockoutEnd" Category="Contains" />
-    <Link Source="Users" Target="Users_LockoutEnabled" Category="Contains" />
-    <Link Source="Users" Target="Users_AccessFailedCount" Category="Contains" />
+    <Link Source="Database" Target="ApplicationUsers" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_Id" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_UserName" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_NormalizedUserName" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_Email" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_NormalizedEmail" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_EmailConfirmed" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_PasswordHash" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_SecurityStamp" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_ConcurrencyStamp" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_PhoneNumber" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_PhoneNumberConfirmed" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_TwoFactorEnabled" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_LockoutEnd" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_LockoutEnabled" Category="Contains" />
+    <Link Source="ApplicationUsers" Target="Users_AccessFailedCount" Category="Contains" />
   </Links>
   <Styles>
     <Style TargetType="Node" GroupLabel="Table" ValueLabel="True">

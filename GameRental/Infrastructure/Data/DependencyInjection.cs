@@ -3,10 +3,9 @@ using Application.Common.Interfaces;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data.Common;
-using Application.Repositories.Classes;
-using Application.Repositories.Interfaces;
 using Application.Services.Classes;
 using Domain.Entities;
+using Infrastructure.Repositories.Classes;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
@@ -17,7 +16,7 @@ namespace Infrastructure.Data
         {
             services.AddSingleton<DbConnection, SqliteConnection>(serviceProvider =>
             {
-                var connection = new SqliteConnection("Data Source=C:\\Users\\artur\\Desktop\\Studia\\Sem7\\RAI\\RazorPages\\RazorPages\\GameRental\\Infrastructure\\sqlite.db");
+                var connection = new SqliteConnection("Data Source=C:\\ApplicationUsers\\artur\\Desktop\\Studia\\Sem7\\RAI\\RazorPages\\RazorPages\\GameRental\\Infrastructure\\sqlite.db");
                 connection.Open();
                 return connection;
             });
