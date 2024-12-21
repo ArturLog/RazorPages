@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Data.Common;
 using Application.Repositories.Classes;
 using Application.Repositories.Interfaces;
+using Application.Services.Classes;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +30,7 @@ namespace Infrastructure.Data
 
             services.AddScoped<ApplicationDbContextInitializer>();
             services.AddScoped<ICrudRepository<Game>, GameRepository>();
+            services.AddScoped<GameService>();
             services.AddScoped<ICrudRepository<GameOffer>, GameOfferRepository>();
             services.AddScoped<ICrudRepository<GameLeased>, GameLeasedRepository>();
             services.AddScoped<ICrudRepository<Genre>, GenreRepository>();
