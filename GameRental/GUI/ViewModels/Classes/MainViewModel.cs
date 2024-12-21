@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Application.Repositories.Interfaces;
 using Domain.Entities;
 using GUI.Commands;
 using Infrastructure.Data;

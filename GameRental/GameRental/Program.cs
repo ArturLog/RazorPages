@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data;
 using System.Globalization;
-using Application.Repositories.Classes;
-using Application.Repositories.Interfaces;
 using Application.Services.Classes;
 using GameRental.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;

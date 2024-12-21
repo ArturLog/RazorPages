@@ -49,7 +49,7 @@
                     <TextBlock Text="Password"/>
                     <TextBox Text="{Binding UserPassword}" />
 
-                    <DataGrid ItemsSource="{Binding Users}" AutoGenerateColumns="True" />
+                    <DataGrid ItemsSource="{Binding ApplicationUsers}" AutoGenerateColumns="True" />
                 </StackPanel>
             </TabItem>
         </TabControl>
