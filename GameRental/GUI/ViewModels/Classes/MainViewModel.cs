@@ -246,7 +246,8 @@ namespace GUI.ViewModels.Classes
                     {
                         Title = GameTitle,
                         Description = GameDescription,
-                        ReleaseDate = GameReleaseDate
+                        ReleaseDate = GameReleaseDate,
+                        Genres = []
                     };
                     game.Genres.Add(SelectedGenre);
                     await _gameRepository.Create(game);
