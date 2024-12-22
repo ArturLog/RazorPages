@@ -7,34 +7,44 @@ namespace Application.Services.Classes
 {
     public class GameService : IGameService
     {
-        private readonly IGameRepository _repository;
+        private readonly IGameRepository _gameRepository;
         public GameService(IGameRepository gameRepository)
         {
-            _repository = gameRepository;
+            _gameRepository = gameRepository;
         }
 
         public async Task<IEnumerable<GameDTO?>> GetAllAsync()
         {
-            var game = await _repository.GetAllAsync();
+            var game = await _gameRepository.GetAllAsync();
             return game.Select(g => new GameDTO
             {
                 Title = g.Title,
                 Image = g.Image,
                 Description = g.Description,
-                ReleaseDate = g.ReleaseDate.HasValue ? DateOnly.FromDateTime(g.ReleaseDate.Value) : (DateOnly?)null
+                ReleaseDate = g.ReleaseDate.HasValue ? DateOnly.FromDateTime(g.ReleaseDate.Value) : (DateOnly?)null,
+                Genres = g.Genres?.Select(genre => new GenreDTO
+                {
+                    Id = genre.Id,
+                    Name = genre.Name
+                }).ToList() ?? new List<GenreDTO>()
             }).ToList();
         }
 
         public async Task<GameDTO?> GetByIdAsync(int id)
         {
-            var game = await _repository.GetByIdAsync(id);
+            var game = await _gameRepository.GetByIdAsync(id);
             return game is not null ? new GameDTO
             {
                 Id = game.Id,
                 Image = game.Image,
                 Title = game.Title,
                 Description = game.Description,
-                ReleaseDate = game.ReleaseDate.HasValue ? DateOnly.FromDateTime(game.ReleaseDate.Value) : (DateOnly?)null
+                ReleaseDate = game.ReleaseDate.HasValue ? DateOnly.FromDateTime(game.ReleaseDate.Value) : (DateOnly?)null,
+                Genres = game.Genres?.Select(genre => new GenreDTO
+                {
+                    Id = genre.Id,
+                    Name = genre.Name
+                }).ToList() ?? new List<GenreDTO>()
             } : null;
         }
 
@@ -45,9 +55,14 @@ namespace Application.Services.Classes
                 Title = gameDto.Title,
                 Image = gameDto.Image,
                 Description = gameDto.Description,
-                ReleaseDate = gameDto.ReleaseDate.HasValue ? gameDto.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null
+                ReleaseDate = gameDto.ReleaseDate.HasValue ? gameDto.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null,
+                Genres = gameDto.Genres?.Select(genreDto => new Genre
+                {
+                    Id = genreDto.Id,
+                    Name = genreDto.Name
+                }).ToList()
             };
-            await _repository.AddAsync(game);
+            await _gameRepository.AddAsync(game);
         }
 
         public async Task UpdateAsync(GameDTO gameDto)
@@ -58,14 +73,19 @@ namespace Application.Services.Classes
                 Title = gameDto.Title,
                 Image = gameDto.Image,
                 Description = gameDto.Description,
-                ReleaseDate = gameDto.ReleaseDate.HasValue ? gameDto.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null
+                ReleaseDate = gameDto.ReleaseDate.HasValue ? gameDto.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null,
+                Genres = gameDto.Genres?.Select(genreDto => new Genre
+                {
+                    Id = genreDto.Id,
+                    Name = genreDto.Name
+                }).ToList()
             };
-            await _repository.UpdateAsync(game);
+            await _gameRepository.UpdateAsync(game);
         }
 
         public async Task DeleteAsync(int id)
         {
-            await _repository.DeleteAsync(id);
+            await _gameRepository.DeleteAsync(id);
         }
     }
 }

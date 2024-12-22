@@ -8,5 +8,6 @@ namespace Application.ModelsDTO
         public string? Description { get; set; }
         public DateOnly? ReleaseDate { get; set; }
         public byte[]? Image { get; set; }
+        public List<GenreDTO> Genres { get; set; } = [];
     }
 }
