@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices.JavaScript;
 
 namespace Domain.Entities
 {
@@ -8,19 +7,15 @@ namespace Domain.Entities
         [Key] 
         public int Id { get; set; }
         
-        [Required(ErrorMessage = "Game title is required.")]
-        [MaxLength(100, ErrorMessage = "Game title cannot exceed 100 characters.")] 
+        [Required]
+        [MaxLength(100)] 
         public string Title { get; set; }
         
-        [MaxLength(300, ErrorMessage = "Game description cannot exceed 300 characters")]
+        [MaxLength(300)]
         public string? Description { get; set; }
         
-        [DataType(DataType.Date)]
-        [Display(Name = "Release date")]
-        [DisplayFormat(DataFormatString = "0:yyyy-MM-dd", ApplyFormatInEditMode = true)]
         public DateTime? ReleaseDate { get; set; }
         
-        [Display(Name = "Image")]
         public byte[]? Image { get; set; }
         
         public ICollection<Genre>? Genres { get; set; } = [];
