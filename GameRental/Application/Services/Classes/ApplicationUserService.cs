@@ -1,33 +1,59 @@
 ﻿using Application.ModelsDTO;
 using Application.Services.Interfaces;
+using Domain.Entities;
+using Domain.Repositories.Interfaces;
 
 namespace Application.Services.Classes
 {
     public class ApplicationUserService : IApplicationUserService
     {
-        public Task<ApplicationUserDTO?> GetByIdAsync(int id)
+        private readonly IApplicationUserRepository _repository;
+
+        public ApplicationUserService(IApplicationUserRepository applicationUserRepository)
         {
-            throw new NotImplementedException();
+            _repository = applicationUserRepository;
         }
 
-        public Task<IEnumerable<ApplicationUserDTO?>> GetAllAsync()
+        public async Task<IEnumerable<ApplicationUserDTO?>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var applicationUser = await _repository.GetAllAsync();
+            return applicationUser.Select(a => new ApplicationUserDTO
+            {
+                Email = a.Email
+            }).ToList();
         }
 
-        public Task AddAsync(ApplicationUserDTO applicationUserDto)
+        public async Task<ApplicationUserDTO?> GetByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            var applicationUser = await _repository.GetByIdAsync(id);
+            return applicationUser is not null ? new ApplicationUserDTO
+            {
+                Id = applicationUser.Id,
+                Email = applicationUser.Email
+            } : null;
         }
 
-        public Task UpdateAsync(ApplicationUserDTO applicationUserDto)
+        public async Task AddAsync(ApplicationUserDTO applicationUserDto)
         {
-            throw new NotImplementedException();
+            var applicationUser = new ApplicationUser
+            {
+                Email = applicationUserDto.Email
+            };
+            await _repository.AddAsync(applicationUser);
         }
 
-        public Task DeleteAsync(int id)
+        public async Task UpdateAsync(ApplicationUserDTO applicationUserDto)
         {
-            throw new NotImplementedException();
+            var applicationUser = new ApplicationUser
+            {
+                Email = applicationUserDto.Email
+            };
+            await _repository.UpdateAsync(applicationUser);
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            await _repository.DeleteAsync(id);
         }
     }
 }

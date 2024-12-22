@@ -1,33 +1,71 @@
 ﻿using Application.ModelsDTO;
 using Application.Services.Interfaces;
+using Domain.Entities;
+using Domain.Repositories.Interfaces;
 
 namespace Application.Services.Classes
 {
     public class GameOfferService : IGameOfferService
     {
-        public Task<GameOfferDTO?> GetByIdAsync(int id)
+        private readonly IGameOfferRepository _repository;
+        public GameOfferService(IGameOfferRepository gameOfferRepository)
         {
-            throw new NotImplementedException();
+            _repository = gameOfferRepository;
         }
 
-        public Task<IEnumerable<GameOfferDTO?>> GetAllAsync()
+        public async Task<IEnumerable<GameOfferDTO?>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var gameOffer = await _repository.GetAllAsync();
+            return gameOffer.Select(g => new GameOfferDTO
+            {
+                Price = g.Price,
+                Amount = g.Amount,
+                GameId = g.GameId,
+                OwnerId = g.OwnerId
+            }).ToList();
         }
 
-        public Task AddAsync(GameOfferDTO gameOfferDto)
+        public async Task<GameOfferDTO?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var gameOffer = await _repository.GetByIdAsync(id);
+            return gameOffer is not null ? new GameOfferDTO
+            {
+                Id = gameOffer.Id,
+                Price = gameOffer.Price,
+                Amount = gameOffer.Amount,
+                GameId = gameOffer.GameId,
+                OwnerId = gameOffer.OwnerId
+            } : null;
         }
 
-        public Task UpdateAsync(GameOfferDTO gameOfferDto)
+        public async Task AddAsync(GameOfferDTO gameOfferDto)
         {
-            throw new NotImplementedException();
+            var gameOffer = new GameOffer
+            {
+                Price = gameOfferDto.Price,
+                Amount = gameOfferDto.Amount,
+                GameId = gameOfferDto.GameId,
+                OwnerId = gameOfferDto.OwnerId
+            };
+            await _repository.AddAsync(gameOffer);
         }
 
-        public Task DeleteAsync(int id)
+        public async Task UpdateAsync(GameOfferDTO gameOfferDto)
         {
-            throw new NotImplementedException();
+            var gameOffer = new GameOffer
+            {
+                Id = gameOfferDto.Id,
+                Price = gameOfferDto.Price,
+                Amount = gameOfferDto.Amount,
+                GameId = gameOfferDto.GameId,
+                OwnerId = gameOfferDto.OwnerId
+            };
+            await _repository.UpdateAsync(gameOffer);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _repository.DeleteAsync(id);
         }
     }
 }

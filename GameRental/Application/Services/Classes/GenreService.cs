@@ -1,33 +1,59 @@
 ﻿using Application.ModelsDTO;
 using Application.Services.Interfaces;
+using Domain.Entities;
+using Domain.Repositories.Interfaces;
 
 namespace Application.Services.Classes
 {
     public class GenreService : IGenreService
     {
-        public Task<GenreDTO?> GetByIdAsync(int id)
+        private readonly IGenreRepository _repository;
+
+        public GenreService(IGenreRepository genreRepository)
         {
-            throw new NotImplementedException();
+            _repository = genreRepository;
         }
 
-        public Task<IEnumerable<GenreDTO?>> GetAllAsync()
+        public async Task<IEnumerable<GenreDTO?>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var genre = await _repository.GetAllAsync();
+            return genre.Select(g => new GenreDTO
+            {
+                Name = g.Name,
+            }).ToList();
         }
 
-        public Task AddAsync(GenreDTO genreDto)
+        public async Task<GenreDTO?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var genre = await _repository.GetByIdAsync(id);
+            return genre is not null ? new GenreDTO
+            {
+                Id = genre.Id,
+                Name = genre.Name
+            } : null;
         }
 
-        public Task UpdateAsync(GenreDTO genreDto)
+        public async Task AddAsync(GenreDTO genreDto)
         {
-            throw new NotImplementedException();
+            var genre = new Genre
+            {
+                Name = genreDto.Name
+            };
+            await _repository.AddAsync(genre);
         }
 
-        public Task DeleteAsync(int id)
+        public async Task UpdateAsync(GenreDTO genreDto)
         {
-            throw new NotImplementedException();
+            var genre = new Genre
+            {
+                Name = genreDto.Name
+            };
+            await _repository.UpdateAsync(genre);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _repository.DeleteAsync(id);
         }
     }
 }

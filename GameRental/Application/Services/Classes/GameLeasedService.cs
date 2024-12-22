@@ -1,33 +1,84 @@
 ﻿using Application.ModelsDTO;
 using Application.Services.Interfaces;
+using Domain.Entities;
+using Domain.Repositories.Interfaces;
 
 namespace Application.Services.Classes
 {
-    internal class GameLeasedService : IGameLeasedService
+    public class GameLeasedService : IGameLeasedService
     {
-        public Task<GameLeasedDTO?> GetByIdAsync(int id)
+        private readonly IGameLeasedRepository _repository;
+        public GameLeasedService(IGameLeasedRepository gameLeasedRepository)
         {
-            throw new NotImplementedException();
+            _repository = gameLeasedRepository;
         }
 
-        public Task<IEnumerable<GameLeasedDTO?>> GetAllAsync()
+        public async Task<IEnumerable<GameLeasedDTO?>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var gameLeased = await _repository.GetAllAsync();
+            return gameLeased.Select(g => new GameLeasedDTO
+            {
+                DateFrom = DateOnly.FromDateTime(g.DateFrom),
+                DateTo = DateOnly.FromDateTime(g.DateTo),
+                Price = g.Price,
+                Active = g.Active,
+                GameOfferId = g.GameOfferId,
+                RenterId = g.RenterId,
+                GameId = g.GameId
+
+            }).ToList();
         }
 
-        public Task AddAsync(GameLeasedDTO gameLeasedDto)
+        public async Task<GameLeasedDTO?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var gameLeased = await _repository.GetByIdAsync(id);
+            return gameLeased is not null ? new GameLeasedDTO
+            {
+                Id = gameLeased.Id,
+                DateFrom = DateOnly.FromDateTime(gameLeased.DateFrom),
+                DateTo = DateOnly.FromDateTime(gameLeased.DateTo),
+                Price = gameLeased.Price,
+                Active = gameLeased.Active,
+                GameOfferId = gameLeased.GameOfferId,
+                RenterId = gameLeased.RenterId,
+                GameId = gameLeased.GameId
+            } : null;
         }
 
-        public Task UpdateAsync(GameLeasedDTO gameLeasedDto)
+        public async Task AddAsync(GameLeasedDTO gameLeasedDto)
         {
-            throw new NotImplementedException();
+            var gameLeased = new GameLeased
+            {
+                DateFrom = gameLeasedDto.DateFrom.ToDateTime(TimeOnly.MinValue),
+                DateTo = gameLeasedDto.DateTo.ToDateTime(TimeOnly.MinValue),
+                Price = gameLeasedDto.Price,
+                Active = gameLeasedDto.Active,
+                GameOfferId = gameLeasedDto.GameOfferId,
+                RenterId = gameLeasedDto.RenterId,
+                GameId = gameLeasedDto.GameId
+            };
+            await _repository.AddAsync(gameLeased);
         }
 
-        public Task DeleteAsync(int id)
+        public async Task UpdateAsync(GameLeasedDTO gameLeasedDto)
         {
-            throw new NotImplementedException();
+            var gameLeased = new GameLeased
+            {
+                Id = gameLeasedDto.Id,
+                DateFrom = gameLeasedDto.DateFrom.ToDateTime(TimeOnly.MinValue),
+                DateTo = gameLeasedDto.DateTo.ToDateTime(TimeOnly.MinValue),
+                Price = gameLeasedDto.Price,
+                Active = gameLeasedDto.Active,
+                GameOfferId = gameLeasedDto.GameOfferId,
+                RenterId = gameLeasedDto.RenterId,
+                GameId = gameLeasedDto.GameId
+            };
+            await _repository.UpdateAsync(gameLeased);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _repository.DeleteAsync(id);
         }
     }
 }

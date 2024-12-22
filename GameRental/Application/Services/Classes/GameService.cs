@@ -1,5 +1,6 @@
 ﻿using Application.ModelsDTO;
 using Application.Services.Interfaces;
+using Domain.Entities;
 using Domain.Repositories.Interfaces;
 
 namespace Application.Services.Classes
@@ -12,53 +13,59 @@ namespace Application.Services.Classes
             _repository = gameRepository;
         }
 
-        public async Task<List<GameDTO?>> GetGamesAsync()
+        public async Task<IEnumerable<GameDTO?>> GetAllAsync()
         {
             var game = await _repository.GetAllAsync();
             return game.Select(g => new GameDTO
             {
-                Id = g.Id,
                 Title = g.Title,
+                Image = g.Image,
                 Description = g.Description,
                 ReleaseDate = g.ReleaseDate.HasValue ? DateOnly.FromDateTime(g.ReleaseDate.Value) : (DateOnly?)null
             }).ToList();
         }
 
-        public async Task<GameDTO?> GetGameByIdAsync(int id)
+        public async Task<GameDTO?> GetByIdAsync(int id)
         {
             var game = await _repository.GetByIdAsync(id);
             return game is not null ? new GameDTO
             {
                 Id = game.Id,
+                Image = game.Image,
                 Title = game.Title,
                 Description = game.Description,
                 ReleaseDate = game.ReleaseDate.HasValue ? DateOnly.FromDateTime(game.ReleaseDate.Value) : (DateOnly?)null
             } : null;
         }
 
-        public Task<GameDTO?> GetByIdAsync(int id)
+        public async Task AddAsync(GameDTO gameDto)
         {
-            throw new NotImplementedException();
+            var game = new Game
+            {
+                Title = gameDto.Title,
+                Image = gameDto.Image,
+                Description = gameDto.Description,
+                ReleaseDate = gameDto.ReleaseDate.HasValue ? gameDto.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null
+            };
+            await _repository.AddAsync(game);
         }
 
-        public Task<IEnumerable<GameDTO?>> GetAllAsync()
+        public async Task UpdateAsync(GameDTO gameDto)
         {
-            throw new NotImplementedException();
+            var game = new Game
+            {
+                Id = gameDto.Id,
+                Title = gameDto.Title,
+                Image = gameDto.Image,
+                Description = gameDto.Description,
+                ReleaseDate = gameDto.ReleaseDate.HasValue ? gameDto.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null
+            };
+            await _repository.UpdateAsync(game);
         }
 
-        public Task AddAsync(GameDTO gameDto)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(GameDTO gameDto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
+            await _repository.DeleteAsync(id);
         }
     }
 }
