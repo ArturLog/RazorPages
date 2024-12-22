@@ -4,6 +4,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data.Common;
 using Application.Services.Classes;
+using Application.Services.Interfaces;
 using Domain.Entities;
 using Infrastructure.Repositories.Classes;
 using Microsoft.EntityFrameworkCore;
@@ -28,12 +29,11 @@ namespace Infrastructure.Data
             });
 
             services.AddScoped<ApplicationDbContextInitializer>();
-            services.AddScoped<ICrudRepository<Game>, GameRepository>();
-            services.AddScoped<GameService>();
-            services.AddScoped<ICrudRepository<GameOffer>, GameOfferRepository>();
-            services.AddScoped<ICrudRepository<GameLeased>, GameLeasedRepository>();
-            services.AddScoped<ICrudRepository<Genre>, GenreRepository>();
-            services.AddScoped<ICrudRepository<ApplicationUser>, ApplicationUserRepository>();
+            services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IGenreService, GenreService>();
+            services.AddScoped<IGameOfferService, GameOfferService>();
+            services.AddScoped<IGameLeasedService, GameLeasedService>();
+            services.AddScoped<IApplicationUserService, ApplicationUserService>();
             services.BuildServiceProvider();
 
             return services;

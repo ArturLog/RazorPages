@@ -2,7 +2,7 @@
 
 namespace Application.Services.Interfaces
 {
-    internal interface IGenreService
+    public interface IGenreService
     {
         Task<GenreDTO?> GetByIdAsync(int id);
         Task<IEnumerable<GenreDTO?>> GetAllAsync();
