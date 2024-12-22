@@ -6,6 +6,7 @@ using System.Data.Common;
 using Application.Services.Classes;
 using Application.Services.Interfaces;
 using Domain.Entities;
+using Domain.Repositories.Interfaces;
 using Infrastructure.Repositories.Classes;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,7 @@ namespace Infrastructure.Data
         {
             services.AddSingleton<DbConnection, SqliteConnection>(serviceProvider =>
             {
-                var connection = new SqliteConnection("Data Source=C:\\ApplicationUsers\\artur\\Desktop\\Studia\\Sem7\\RAI\\RazorPages\\RazorPages\\GameRental\\Infrastructure\\sqlite.db");
+                var connection = new SqliteConnection(@"Data Source=C:\Users\artur\Desktop\Studia\Sem7\RAI\RazorPages\RazorPages\GameRental\Infrastructure\sqlite.db");
                 connection.Open();
                 return connection;
             });
@@ -30,10 +31,15 @@ namespace Infrastructure.Data
 
             services.AddScoped<ApplicationDbContextInitializer>();
             services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IGenreService, GenreService>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IGameOfferService, GameOfferService>();
+            services.AddScoped<IGameOfferRepository, GameOfferRepository>();
             services.AddScoped<IGameLeasedService, GameLeasedService>();
+            services.AddScoped<IGameLeasedRepository, GameLeasedRepository>();
             services.AddScoped<IApplicationUserService, ApplicationUserService>();
+            services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             services.BuildServiceProvider();
 
             return services;

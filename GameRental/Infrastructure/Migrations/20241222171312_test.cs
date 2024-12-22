@@ -59,7 +59,8 @@ namespace Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 300, nullable: true),
-                    ReleaseDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    ReleaseDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    Image = table.Column<byte[]>(type: "BLOB", nullable: true)
                 },
                 constraints: table =>
                 {

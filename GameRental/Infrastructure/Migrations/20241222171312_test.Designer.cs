@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241221170605_test")]
+    [Migration("20241222171312_test")]
     partial class test
     {
         /// <inheritdoc />
@@ -29,6 +29,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(300)
                         .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("BLOB");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("TEXT");

@@ -9,12 +9,12 @@ namespace Infrastructure.Repositories.Classes
     {
         public async Task<Game?> GetByIdAsync(int id)
         {
-            return await context.Games.FindAsync(id);
+            return await context.Games.Include(g => g.Genres).FirstOrDefaultAsync(g => g.Id == id);
         }
 
         public async Task<IEnumerable<Game?>> GetAllAsync()
         {
-            return await context.Games.ToListAsync();
+            return await context.Games.Include(g => g.Genres).ToListAsync();
         }
         public async Task AddAsync(Game game)
         {
