@@ -1,7 +1,7 @@
 ﻿@page
 @using System.Globalization
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model GameRental.Pages.Games.IndexModel
+@model GameRental.Pages.Game.IndexModel
 
 <h1>Games offer</h1>
 
@@ -12,29 +12,39 @@
         <th>Title</th>
         <th>Description</th>
         <th>Genre</th>
-        <th>Price</th>
-        <th>Amount</th>
         @* <th>Actions</th> *@
     </tr>
     </thead>
     <tbody>
-    @foreach (var gameOffer in Model.GameOffers)
+    @foreach (var game in Model.Games)
     {
         <tr>
             <td>
-                @if (gameOffer.Game.Image != null)
+                @if (game.Image != null)
                 {
-                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(gameOffer.Game.Image)" 
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(game.Image)" 
                          alt="Game image" 
                          width="80" height="80" 
                          style="object-fit: cover; border-radius: 5%; vertical-align: middle;" />
                 }
             </td>
-            <td>@gameOffer.Game.Title</td>
-            <td>@gameOffer.Game.Description</td>
-            <td>@gameOffer.Game.Genres</td>
-            <td>@gameOffer.Price.ToString("N0", CultureInfo.CurrentCulture)</td>
-            <td>@gameOffer.Amount</td>
+            <td>@game.Title</td>
+            <td>@game.Description</td>
+            <td>
+                @if (game.Genres.Any())
+                {
+                    <ul>
+                        @foreach (var genre in game.Genres)
+                        {
+                            <li>@genre.Name</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <span>No Genres</span>
+                }
+            </td>
 @*             <td>
                 <a asp-page="/Players/Details" asp-route-id="@player.Id" class="btn btn-info">Details</a>
                 <a asp-page="/Players/Edit" asp-route-id="@player.Id" class="btn btn-warning">Edit</a>

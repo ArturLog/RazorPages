@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GameRental.Pages.GameAccount.GameOffer
+namespace GameRental.Pages.GameLeased
 {
-    public class DetailsModel : PageModel
+    public class EditModel : PageModel
     {
         public void OnGet()
         {

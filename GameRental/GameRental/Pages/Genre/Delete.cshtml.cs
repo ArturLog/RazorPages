@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GameRental.Pages.GameAccount.GameOffer
+namespace GameRental.Pages.Genre
 {
-    public class EditModel : PageModel
+    public class DeleteModel : PageModel
     {
         public void OnGet()
         {
