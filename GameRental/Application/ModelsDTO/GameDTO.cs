@@ -16,11 +16,12 @@ namespace Application.ModelsDTO
 
         [DataType(DataType.Date)]
         [Display(Name = "Release date")]
-        [DisplayFormat(DataFormatString = "0:yyyy-MM-dd", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateOnly? ReleaseDate { get; set; }
 
         [Display(Name = "Image")]
         public byte[]? Image { get; set; }
-        public List<GenreDTO> Genres { get; set; } = [];
+        [Display(Name = "Genres")]
+        public List<GenreDTO?> Genres { get; set; } = [];
     }
 }

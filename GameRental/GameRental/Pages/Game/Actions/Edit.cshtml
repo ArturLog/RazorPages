@@ -1,0 +1,79 @@
+﻿@page
+@model EditModel
+
+<div class="container mt-4">
+    <h1 class="mb-4">Edit game</h1>
+
+    <h4>Game</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                <input type="hidden" asp-for="Game.Id" />
+
+                <div class="form-group">
+                    <label asp-for="Game.Title" class="form-label">
+                        First Name <span class="text-danger">*</span>
+                    </label>
+                    <input asp-for="Game.Title" class="form-control" />
+                    <span asp-validation-for="Game.Title" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Game.Description" class="form-label">
+                        Last Name <span class="text-danger">*</span>
+                    </label>
+                    <input asp-for="Game.Description" class="form-control" />
+                    <span asp-validation-for="Game.Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Game.ReleaseDate" class="form-label">
+                        Date of Birth
+                    </label>
+                    <input asp-for="Game.ReleaseDate" class="form-control" />
+                    <span asp-validation-for="Game.ReleaseDate" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group mt-3">
+                    <label class="form-label">Select Genres</label>
+                    <div>
+                        @foreach (var genre in Model.Genres)
+                        {
+                            <div class="form-check">
+                                @if (Model.Game.Genres.Contains(genre))
+                                {
+                                    <input class="form-check-input" type="checkbox" name="SelectedGenresIds" value="@genre.Id" id="genre_@genre.Id" checked />
+                                }
+                                else
+                                {
+                                    <input class="form-check-input" type="checkbox" name="SelectedGenresIds" value="@genre.Id" id="genre_@genre.Id" />
+                                }
+                                <label class="form-check-label" for="genre_@genre.Id">
+                                    @genre.Name
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="image" class="form-label">Upload image</label>
+                    <input type="file" id="image" name="UploadedImage" class="form-control" accept="image/*" />
+                </div>
+
+                <div class="form-group mt-3 d-flex justify-content-between">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <a asp-page="/Game/Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

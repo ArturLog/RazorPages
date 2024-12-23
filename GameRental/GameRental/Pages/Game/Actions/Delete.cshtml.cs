@@ -3,44 +3,45 @@ using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GameRental.Pages.Genre.Actions
+namespace GameRental.Pages.Game.Actions
 {
     public class DeleteModel : PageModel
     {
-        private readonly IGenreService _genreService;
-        public DeleteModel(IGenreService genreService)
+        private readonly IGameService _gameService;
+        public DeleteModel(IGameService gameService)
         {
-            _genreService = genreService;
+            _gameService = gameService;
         }
         [BindProperty]
-        public GenreDTO Genre { get; set; }
+        public GameDTO Game { get; set; }
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            var genre = await _genreService.GetByIdAsync(id);
-            if (genre == null)
+            var game = await _gameService.GetByIdAsync(id);
+            if (game == null)
             {
                 return NotFound();
             }
             else
             {
-                Genre = genre;
+                Game = game;
             }
             return Page();
         }
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            var genre = await _genreService.GetByIdAsync(id);
-            if (genre != null)
+            var game = await _gameService.GetByIdAsync(id);
+            if (game != null)
             {
-                Genre = genre;
-                await _genreService.DeleteAsync(id);
+                Game = game;
+                await _gameService.DeleteAsync(id);
             }
             else
             {
                 return NotFound();
             }
 
-            return RedirectToPage("/Genre/Index");
+            return RedirectToPage("/Game/Index");
         }
+
     }
 }

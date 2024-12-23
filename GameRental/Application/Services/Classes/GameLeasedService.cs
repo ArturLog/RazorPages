@@ -18,7 +18,8 @@ namespace Application.Services.Classes
             var gameLeased = await _repository.GetAllAsync();
             return gameLeased.Select(g => new GameLeasedDTO
             {
-                DateFrom = DateOnly.FromDateTime(g.DateFrom),
+	            Id = g.Id,
+				DateFrom = DateOnly.FromDateTime(g.DateFrom),
                 DateTo = DateOnly.FromDateTime(g.DateTo),
                 Price = g.Price,
                 Active = g.Active,

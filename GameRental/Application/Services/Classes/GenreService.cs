@@ -19,7 +19,8 @@ namespace Application.Services.Classes
             var genre = await _repository.GetAllAsync();
             return genre.Select(g => new GenreDTO
             {
-                Name = g.Name,
+	            Id = g.Id,
+				Name = g.Name,
             }).ToList();
         }
 
@@ -46,6 +47,7 @@ namespace Application.Services.Classes
         {
             var genre = new Genre
             {
+                Id = genreDto.Id,
                 Name = genreDto.Name
             };
             await _repository.UpdateAsync(genre);

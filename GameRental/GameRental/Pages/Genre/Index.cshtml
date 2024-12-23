@@ -1,4 +1,27 @@
 ﻿@page
 @model GameRental.Pages.Genre.IndexModel
-@{
-}
+
+<h1>Genres</h1>
+<a asp-page="/Genre/Actions/Create" class="btn btn-primary mb-3">Add genre</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var genre in Model.Genres)
+        {
+            <tr>
+                
+                <td>@genre.Name</td>
+                <td>
+                    <a asp-page="/Genre/Actions/Details" asp-route-id="@genre.Id" class="btn btn-info">Details</a>
+                    <a asp-page="/Genre/Actions/Edit" asp-route-id="@genre.Id" class="btn btn-warning">Edit</a>
+                    <a asp-page="/Genre/Actions/Delete" asp-route-id="@genre.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

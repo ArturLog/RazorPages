@@ -3,7 +3,8 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model GameRental.Pages.Game.IndexModel
 
-<h1>Games offer</h1>
+<h1>Games</h1>
+<a asp-page="/Game/Actions/Create" class="btn btn-primary mb-3">Add game</a>
 
 <table class="table table-striped">
     <thead>
@@ -12,7 +13,7 @@
         <th>Title</th>
         <th>Description</th>
         <th>Genre</th>
-        @* <th>Actions</th> *@
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -45,13 +46,11 @@
                     <span>No Genres</span>
                 }
             </td>
-@*             <td>
-                <a asp-page="/Players/Details" asp-route-id="@player.Id" class="btn btn-info">Details</a>
-                <a asp-page="/Players/Edit" asp-route-id="@player.Id" class="btn btn-warning">Edit</a>
-                <form method="post" asp-page-handler="Delete" asp-route-id="@player.Id" class="d-inline">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </td> *@
+            <td>
+                <a asp-page="/Game/Actions/Details" asp-route-id="@game.Id" class="btn btn-info">Details</a>
+                <a asp-page="/Game/Actions/Edit" asp-route-id="@game.Id" class="btn btn-warning">Edit</a>
+                <a asp-page="/Game/Actions/Delete" asp-route-id="@game.Id" class="btn btn-danger">Delete</a>
+            </td>
         </tr>
     }
     </tbody>

@@ -19,7 +19,8 @@ namespace Application.Services.Classes
             var applicationUser = await _repository.GetAllAsync();
             return applicationUser.Select(a => new ApplicationUserDTO
             {
-                Email = a.Email
+				Id = a.Id,
+				Email = a.Email
             }).ToList();
         }
 
@@ -46,6 +47,7 @@ namespace Application.Services.Classes
         {
             var applicationUser = new ApplicationUser
             {
+                Id = applicationUserDto.Id,
                 Email = applicationUserDto.Email
             };
             await _repository.UpdateAsync(applicationUser);

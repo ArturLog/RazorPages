@@ -18,7 +18,8 @@ namespace Application.Services.Classes
             var gameOffer = await _repository.GetAllAsync();
             return gameOffer.Select(g => new GameOfferDTO
             {
-                Price = g.Price,
+				Id = g.Id,
+				Price = g.Price,
                 Amount = g.Amount,
                 GameId = g.GameId,
                 OwnerId = g.OwnerId

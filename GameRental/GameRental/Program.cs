@@ -34,7 +34,10 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AuthorizeFolder("/");
+    options.Conventions.AuthorizeFolder("/Game/Actions");
+    options.Conventions.AuthorizeFolder("/Genre/Actions");
+    options.Conventions.AuthorizeFolder("/GameOffer/Actions");
+    options.Conventions.AuthorizeFolder("/GameLeased/Actions");
 });
 
 builder.Services.AddEndpointsApiExplorer();
@@ -222,41 +225,41 @@ app.MapMethods("/api/gameLeased/{id:int}", new[] { "GET", "PUT", "DELETE" }, asy
     return Results.BadRequest();
 });
 
-//Endpoint for /applicationUser
-app.MapMethods("/api/applicationUser", new[] { "GET" }, async (HttpContext context, IApplicationUserService service) =>
-{
-    if (context.Request.Method == "GET")
-    {
-        var applicationUser = await service.GetAllAsync();
-        return Results.Ok(applicationUser);
-    }
-    return Results.BadRequest();
-});
+////Endpoint for /applicationUser
+//app.MapMethods("/api/applicationUser", new[] { "GET" }, async (HttpContext context, IApplicationUserService service) =>
+//{
+//    if (context.Request.Method == "GET")
+//    {
+//        var applicationUser = await service.GetAllAsync();
+//        return Results.Ok(applicationUser);
+//    }
+//    return Results.BadRequest();
+//});
 
-// Endpoint for /applicationUser/{id} (handles GET, PUT, DELETE)
-app.MapMethods("/api/applicationUser/{id}", new[] { "GET", "PUT", "DELETE" }, async (HttpContext context, string id, IApplicationUserService service) =>
-{
-    if (context.Request.Method == "GET")
-    {
-        var applicationUser = await service.GetByIdAsync(id);
-        return applicationUser is not null ? Results.Ok(applicationUser) : Results.NotFound();
-    }
-    else if (context.Request.Method == "PUT")
-    {
-        var updatedApplicationUser = await context.Request.ReadFromJsonAsync<ApplicationUserDTO>();
-        if (updatedApplicationUser == null || updatedApplicationUser.Id != id)
-            return Results.BadRequest("Invalid or mismatched player data.");
+//// Endpoint for /applicationUser/{id} (handles GET, PUT, DELETE)
+//app.MapMethods("/api/applicationUser/{id}", new[] { "GET", "PUT", "DELETE" }, async (HttpContext context, string id, IApplicationUserService service) =>
+//{
+//    if (context.Request.Method == "GET")
+//    {
+//        var applicationUser = await service.GetByIdAsync(id);
+//        return applicationUser is not null ? Results.Ok(applicationUser) : Results.NotFound();
+//    }
+//    else if (context.Request.Method == "PUT")
+//    {
+//        var updatedApplicationUser = await context.Request.ReadFromJsonAsync<ApplicationUserDTO>();
+//        if (updatedApplicationUser == null || updatedApplicationUser.Id != id)
+//            return Results.BadRequest("Invalid or mismatched player data.");
 
-        await service.UpdateAsync(updatedApplicationUser);
-        return Results.NoContent();
-    }
-    else if (context.Request.Method == "DELETE")
-    {
-        await service.DeleteAsync(id);
-        return Results.NoContent();
-    }
-    return Results.BadRequest();
-});
+//        await service.UpdateAsync(updatedApplicationUser);
+//        return Results.NoContent();
+//    }
+//    else if (context.Request.Method == "DELETE")
+//    {
+//        await service.DeleteAsync(id);
+//        return Results.NoContent();
+//    }
+//    return Results.BadRequest();
+//});
 
 #endregion
 

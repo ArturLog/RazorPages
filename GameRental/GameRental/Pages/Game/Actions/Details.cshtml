@@ -1,0 +1,61 @@
+﻿@page
+@model DetailsModel
+
+
+<div class="row">
+	<div class="col-md-8">
+		<h2>@Model.Game.Title</h2>
+		<hr />
+		<dl class="row">
+			<dt class="col-sm-4">
+				@Html.DisplayNameFor(model => model.Game.Description)
+			</dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Game.Description)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Game.ReleaseDate)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Game.ReleaseDate)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Game.Genres)
+            </dt>
+            <dd class="col-sm-8">
+			@foreach (var genre in Model.Game.Genres)
+            {
+                @genre.Name
+            }
+            @if (Model.Game.Genres.Any())
+            {
+                <ul>
+                    @foreach (var genre in Model.Game.Genres)
+                    {
+                        <li>@genre.Name</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <span>No Genres</span>
+            }
+            </dd>
+		</dl>
+		<div>
+            <a asp-page="/Game/Actions/Edit" asp-route-id="@Model.Game.Id" class="btn btn-warning">Edit</a>
+            <a asp-page="/Game/Actions/Delete" asp-route-id="@Model.Game.Id" class="btn btn-danger">Delete</a>
+			<a asp-page="/Game/Index" class="btn btn-secondary">Back to List</a>
+		</div>
+	</div>
+
+    <div class="col-md-4 d-flex align-items-center justify-content-center">
+        @if (Model.Game.Image != null)
+        {
+			<img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Game.Image)"
+				 alt="Game image"
+				 width="400" height="400" 
+                 style="object-fit: cover; border-radius: 10px;" />
+        }
+    </div>
+</div>

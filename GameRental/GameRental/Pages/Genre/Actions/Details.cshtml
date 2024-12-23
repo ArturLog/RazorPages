@@ -1,4 +1,23 @@
 ﻿@page
-@model GameRental.Pages.Genre.DetailsModel
-@{
-}
+@model DetailsModel
+
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>Genre</h2>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Genre.Name)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Genre.Name)
+            </dd>
+        </dl>
+        <div>
+            <a asp-page="/Genre/Actions/Edit" asp-route-id="@Model.Genre.Id" class="btn btn-warning">Edit</a>
+            <a asp-page="/Genre/Actions/Delete" asp-route-id="@Model.Genre.Id" class="btn btn-danger">Delete</a>
+            <a asp-page="/Genre/Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>

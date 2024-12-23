@@ -8,9 +8,11 @@ namespace Application.Services.Classes
     public class GameService : IGameService
     {
         private readonly IGameRepository _gameRepository;
-        public GameService(IGameRepository gameRepository)
+        private readonly IGenreRepository _genreRepository;
+        public GameService(IGameRepository gameRepository, IGenreRepository genreRepository)
         {
             _gameRepository = gameRepository;
+            _genreRepository = genreRepository;
         }
 
         public async Task<IEnumerable<GameDTO?>> GetAllAsync()
@@ -18,7 +20,8 @@ namespace Application.Services.Classes
             var game = await _gameRepository.GetAllAsync();
             return game.Select(g => new GameDTO
             {
-                Title = g.Title,
+				Id = g.Id,
+				Title = g.Title,
                 Image = g.Image,
                 Description = g.Description,
                 ReleaseDate = g.ReleaseDate.HasValue ? DateOnly.FromDateTime(g.ReleaseDate.Value) : (DateOnly?)null,
@@ -55,13 +58,14 @@ namespace Application.Services.Classes
                 Title = gameDto.Title,
                 Image = gameDto.Image,
                 Description = gameDto.Description,
-                ReleaseDate = gameDto.ReleaseDate.HasValue ? gameDto.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null,
-                Genres = gameDto.Genres?.Select(genreDto => new Genre
-                {
-                    Id = genreDto.Id,
-                    Name = genreDto.Name
-                }).ToList()
+                ReleaseDate = gameDto.ReleaseDate.HasValue ? gameDto.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null
             };
+            if (gameDto.Genres.Any())
+            {
+                var existingGenres = await _genreRepository.GetAllAsync();
+                game.Genres = existingGenres.Where(genre => gameDto.Genres.Any(genreDto => genreDto.Id == genre.Id)).ToList();
+            }
+
             await _gameRepository.AddAsync(game);
         }
 
@@ -73,13 +77,18 @@ namespace Application.Services.Classes
                 Title = gameDto.Title,
                 Image = gameDto.Image,
                 Description = gameDto.Description,
-                ReleaseDate = gameDto.ReleaseDate.HasValue ? gameDto.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null,
-                Genres = gameDto.Genres?.Select(genreDto => new Genre
-                {
-                    Id = genreDto.Id,
-                    Name = genreDto.Name
-                }).ToList()
+                ReleaseDate = gameDto.ReleaseDate.HasValue ? gameDto.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null
             };
+            if (gameDto.Genres.Any())
+            {
+                var existingGenres = await _genreRepository.GetAllAsync();
+                game.Genres.Clear();
+                game.Genres = existingGenres.Where(genre => gameDto.Genres.Any(genreDto => genreDto.Id == genre.Id)).ToList();
+            }
+            else
+            {
+                game.Genres.Clear();
+            }
             await _gameRepository.UpdateAsync(game);
         }
 
