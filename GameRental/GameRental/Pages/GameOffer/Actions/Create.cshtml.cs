@@ -18,48 +18,47 @@ namespace GameRental.Pages.GameOffer
             _gameOfferService = gameOfferService;
         }
 
-        //[BindProperty]
-        //public GameDTO Game { get; set; } = default!;
+        [BindProperty]
+        public GameOfferDTO GameOffer { get; set; } = default!;
 
-        //[BindProperty]
-        //public IEnumerable<GenreDTO?> Genres { get; set; } = default!;
+        [BindProperty]
+        public IEnumerable<GameDTO?> Games { get; set; } = default!;
+        public IEnumerable<ApplicationUserDTO?> Users { get; set; } = default!;
 
-        //[BindProperty]
-        //public List<int> SelectedGenresIds { get; set; } = default!;
+        [BindProperty]
+        public int SelectedGameId { get; set; } = default!;
 
-        //[BindProperty]
-        //public IFormFile? UploadedImage { get; set; }
-        //public async Task<IActionResult> OnGet()
-        //{
-        //    Genres = await _genreService.GetAllAsync();
-        //    return Page();
-        //}
-        //public async Task<IActionResult> OnPostAsync()
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return Page();
-        //    }
+        [BindProperty]
+        public int SelectedRenterId { get; set; } = default!;
 
-        //    if (UploadedImage != null && UploadedImage.Length > 0)
-        //    {
-        //        using (var memoryStream = new MemoryStream())
-        //        {
-        //            await UploadedImage.CopyToAsync(memoryStream);
-        //            Game.Image = memoryStream.ToArray();
-        //        }
-        //    }
+        public async Task<IActionResult> OnGet()
+        {
+            Games = await _gameService.GetAllAsync();
+            Users = await _applicationUserService.GetAllAsync();
+            return Page();
+        }
+        public async Task<IActionResult> OnPostAsync()
+        {
 
-        //    if (SelectedGenresIds.Any())
-        //    {
-        //        Game.Genres = SelectedGenresIds
-        //            .Select(genreId => new GenreDTO { Id = genreId })
-        //            .ToList();
-        //    }
+            GameOffer.Game = await _gameService.GetByIdAsync(SelectedGameId);
+            if(GameOffer.Game == null) 
+                return RedirectToPage("/GameOffer/Actions/Create");
 
-        //    await _gameService.AddAsync(Game);
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            GameOffer.Owner = await _applicationUserService.GetByIdAsync(userId);
+            if (GameOffer.Owner == null)
+            {
+                return RedirectToPage("/GameOffer/Actions/Create");
+            }
 
-        //    return RedirectToPage("/Game/Index");
-        //  }
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            await _gameOfferService.AddAsync(GameOffer);
+
+            return RedirectToPage("/GameOffer/Index");
+        }
     }
 }

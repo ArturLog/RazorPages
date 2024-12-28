@@ -1,11 +1,11 @@
 ﻿@page
 @model GameRental.Pages.GameOffer.CreateModel
 
-@* 
-<div class="container mt-4">
-    <h1 class="mb-4">Add game</h1>
 
-    <h2>Game</h2>
+<div class="container mt-4">
+    <h1 class="mb-4">Add game offer</h1>
+
+    <h2>Game offer</h2>
     <hr />
     <div class="row">
         <div class="col-md-6">
@@ -13,57 +13,46 @@
                 <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
                 <div class="form-group">
-                    <label asp-for="Game.Title" class="form-label">
-                        Title <span class="text-danger">*</span>
+                    <label asp-for="GameOffer.Price" class="form-label">
+                        Price <span class="text-danger">*</span>
                     </label>
-                    <input asp-for="Game.Title" class="form-control" />
-                    <span asp-validation-for="Game.Title" class="text-danger"></span>
+                    <input asp-for="GameOffer.Price" class="form-control" />
+                    <span asp-validation-for="GameOffer.Price" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Game.Description" class="form-label">
-                        Description
+                    <label asp-for="GameOffer.Amount" class="form-label">
+                        Amount <span class="text-danger">*</span>
                     </label>
-                    <input asp-for="Game.Description" class="form-control" />
-                    <span asp-validation-for="Game.Description" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Game.ReleaseDate" class="form-label">
-                        Release Date
-                    </label>
-                    <input asp-for="Game.ReleaseDate" class="form-control" />
-                    <span asp-validation-for="Game.ReleaseDate" class="text-danger"></span>
+                    <input asp-for="GameOffer.Amount" class="form-control" />
+                    <span asp-validation-for="GameOffer.Amount" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-3">
-                    <label class="form-label">Select Genres</label>
+                    <label class="form-label">Select a game<span class="text-danger">*</span></label>
                     <div>
-                        @foreach (var genre in Model.Genres)
+                        @for (var i = 0; i < Model.Games.Count(); i++)
                         {
+                            var game = Model.Games.ElementAt(i);
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="SelectedGenresIds" value="@genre.Id" id="genre_@genre.Id" />
-                                <label class="form-check-label" for="genre_@genre.Id">
-                                    @genre.Name
+                                <input class="form-check-input" type="radio" name="SelectedGameId" value="@game.Id" id="game_@game.Id"
+                                @(i == 0 ? "checked" : "") />
+                                <label class="form-check-label" for="game_@game.Id">
+                                    @game.Title
                                 </label>
                             </div>
                         }
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="image" class="form-label">Upload image</label>
-                    <input type="file" id="image" name="UploadedImage" class="form-control" accept="image/*" />
-                </div>
-
                 <div class="form-group mt-3 d-flex justify-content-between">
                     <input type="submit" value="Add" class="btn btn-primary" />
-                    <a asp-page="/Game/Index" class="btn btn-secondary">Back to list</a>
+                    <a asp-page="/GameOffer/Index" class="btn btn-secondary">Back to list</a>
                 </div>
             </form>
         </div>
     </div>
-</div> *@
+</div> 
 
 @section Scripts {
     @{

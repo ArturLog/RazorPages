@@ -22,25 +22,8 @@
                 <td>@gameOffer.Id</td>
                 <td>@gameOffer.Price</td>
                 <td>@gameOffer.Amount</td>
-                <td>Game</td>
-                <td>Owner</td>
-
-
-                @*  <td>
-            @if (game.Genres.Any())
-            {
-            <ul>
-            @foreach (var genre in game.Genres)
-            {
-            <li>@genre.Name</li>
-            }
-            </ul>
-            }
-            else
-            {
-            <span>No Genres</span>
-            }
-            </td> *@
+                <td>@gameOffer.Game.Title</td>
+                <td>@gameOffer.Owner.Email</td>
                 <td>
                     <a asp-page="/GameOffer/Actions/Details" asp-route-id="@gameOffer.Id" class="btn btn-info">Details</a>
                     <a asp-page="/GameOffer/Actions/Edit" asp-route-id="@gameOffer.Id" class="btn btn-warning">Edit</a>

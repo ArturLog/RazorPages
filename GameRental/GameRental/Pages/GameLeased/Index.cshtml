@@ -13,7 +13,7 @@
             <th>Active</th>
             <th>Game</th>
             <th>Renter</th>
-            <th>Game offer</th>
+            <th>Price</th>
         </tr>
     </thead>
     <tbody>
@@ -23,26 +23,9 @@
                 <td>@leasedGame.Id</td>
                 <td>@leasedGame.Price</td>
                 <td>@leasedGame.Active</td>
-                <td>Game</td>
-                <td>Renter</td>
-                <td>Game offer</td>
-
-
-               @*  <td>
-                    @if (game.Genres.Any())
-                    {
-                        <ul>
-                            @foreach (var genre in game.Genres)
-                            {
-                                <li>@genre.Name</li>
-                            }
-                        </ul>
-                    }
-                    else
-                    {
-                        <span>No Genres</span>
-                    }
-                </td> *@
+                <td>@leasedGame.Game.Title</td>
+                <td>@leasedGame.Renter.Email</td>
+                <td>@leasedGame.GameOffer.Price</td>
                 <td>
                     <a asp-page="/GameLeased/Actions/Details" asp-route-id="@leasedGame.Id" class="btn btn-info">Details</a>
                     <a asp-page="/GameLeased/Actions/Edit" asp-route-id="@leasedGame.Id" class="btn btn-warning">Edit</a>
