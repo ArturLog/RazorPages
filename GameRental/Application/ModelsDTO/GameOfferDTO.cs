@@ -14,9 +14,9 @@ namespace Application.ModelsDTO
         public int Amount { get; set; }
         [Required(ErrorMessage = "Game is required")]
         [Display(Name = "Game")]
-        public int GameId { get; set; }
+        public GameDTO Game { get; set; }
         [Required(ErrorMessage = "Owner is required")]
         [Display(Name = "Owner")]
-        public string OwnerId { get; set; }
+        public ApplicationUserDTO Owner { get; set; }
     }
 }

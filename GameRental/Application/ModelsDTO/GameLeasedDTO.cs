@@ -27,14 +27,14 @@ namespace Application.ModelsDTO
 
         [Required(ErrorMessage = "Game is required")]
         [Display(Name = "Game")]
-        public int GameId { get; set; }
+        public GameDTO Game { get; set; }
 
         [Required(ErrorMessage = "Game offer is required")]
         [Display(Name = "Game offer")]
-        public int GameOfferId { get; set; }
+        public GameOfferDTO GameOffer { get; set; }
 
         [Required(ErrorMessage = "Renter is required")]
         [Display(Name = "Renter")]
-        public string RenterId { get; set; }
+        public ApplicationUserDTO Renter { get; set; }
     }
 }
