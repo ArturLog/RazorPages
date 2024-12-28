@@ -1,4 +1,54 @@
 ﻿@page
 @model GameRental.Pages.GameLeased.IndexModel
-@{
-}
+
+
+<h1>Leased games</h1>
+<a asp-page="/GameLeased/Actions/Create" class="btn btn-primary mb-3">Add game</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Price</th>
+            <th>Active</th>
+            <th>Game</th>
+            <th>Renter</th>
+            <th>Game offer</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var leasedGame in Model.LeasedGames)
+        {
+            <tr>
+                <td>@leasedGame.Id</td>
+                <td>@leasedGame.Price</td>
+                <td>@leasedGame.Active</td>
+                <td>Game</td>
+                <td>Renter</td>
+                <td>Game offer</td>
+
+
+               @*  <td>
+                    @if (game.Genres.Any())
+                    {
+                        <ul>
+                            @foreach (var genre in game.Genres)
+                            {
+                                <li>@genre.Name</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>No Genres</span>
+                    }
+                </td> *@
+                <td>
+                    <a asp-page="/GameLeased/Actions/Details" asp-route-id="@leasedGame.Id" class="btn btn-info">Details</a>
+                    <a asp-page="/GameLeased/Actions/Edit" asp-route-id="@leasedGame.Id" class="btn btn-warning">Edit</a>
+                    <a asp-page="/GameLeased/Actions/Delete" asp-route-id="@leasedGame.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

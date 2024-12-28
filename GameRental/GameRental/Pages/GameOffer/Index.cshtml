@@ -1,4 +1,52 @@
 ﻿@page
 @model GameRental.Pages.GameOffer.IndexModel
-@{
-}
+
+
+<h1>Games offers</h1>
+<a asp-page="/GameOffer/Actions/Create" class="btn btn-primary mb-3">Add game</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Price</th>
+            <th>Amount</th>
+            <th>Game</th>
+            <th>Owner</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var gameOffer in Model.OfferGames)
+        {
+            <tr>
+                <td>@gameOffer.Id</td>
+                <td>@gameOffer.Price</td>
+                <td>@gameOffer.Amount</td>
+                <td>Game</td>
+                <td>Owner</td>
+
+
+                @*  <td>
+            @if (game.Genres.Any())
+            {
+            <ul>
+            @foreach (var genre in game.Genres)
+            {
+            <li>@genre.Name</li>
+            }
+            </ul>
+            }
+            else
+            {
+            <span>No Genres</span>
+            }
+            </td> *@
+                <td>
+                    <a asp-page="/GameOffer/Actions/Details" asp-route-id="@gameOffer.Id" class="btn btn-info">Details</a>
+                    <a asp-page="/GameOffer/Actions/Edit" asp-route-id="@gameOffer.Id" class="btn btn-warning">Edit</a>
+                    <a asp-page="/GameOffer/Actions/Delete" asp-route-id="@gameOffer.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
