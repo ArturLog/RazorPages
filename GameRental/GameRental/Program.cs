@@ -6,14 +6,11 @@ using Application.ModelsDTO;
 using Application.Services.Interfaces;
 using GameRental.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-//builder.Services.AddDbContext<ApplicationDbContext>(options =>
-//    options.UseSqlServer(connectionString));
 
 builder.Services.AddInfrastructureServices();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -22,7 +19,7 @@ builder.Services.AddSingleton<IEmailSender, SendGridEmailSender>();
 builder.Services.AddMvc().AddDataAnnotationsLocalization()
     .AddViewLocalization(options => options.ResourcesPath = "Resources");
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 

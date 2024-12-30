@@ -41,14 +41,19 @@ namespace GameRental.Pages.GameOffer
         {
 
             GameOffer.Game = await _gameService.GetByIdAsync(SelectedGameId);
-            if(GameOffer.Game == null) 
-                return RedirectToPage("/GameOffer/Actions/Create");
+            if(GameOffer.Game == null)
+            {
+                ModelState.AddModelError("GameOffer.Game", "The selected game could not be found.");
+                return Page();
+            }
+                
 
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             GameOffer.Owner = await _applicationUserService.GetByIdAsync(userId);
             if (GameOffer.Owner == null)
             {
-                return RedirectToPage("/GameOffer/Actions/Create");
+                ModelState.AddModelError("GameOffer.Owner", "The user could not be found.");
+                return Page();
             }
 
             if (!ModelState.IsValid)
