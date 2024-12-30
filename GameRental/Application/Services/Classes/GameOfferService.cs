@@ -26,14 +26,16 @@ namespace Application.Services.Classes
         public async Task<IEnumerable<GameOfferDTO?>> GetAllAsync()
         {
             var gameOffer = await _gameOfferRepository.GetAllAsync();
-            return (IEnumerable<GameOfferDTO?>)gameOffer.Select(async g => new GameOfferDTO
+            var result = await Task.WhenAll(gameOffer.Select(async g => new GameOfferDTO
             {
-				Id = g.Id,
-				Price = g.Price,
+                Id = g.Id,
+                Price = g.Price,
                 Amount = g.Amount,
                 Game = await _gameService.GetByIdAsync(g.GameId),
                 Owner = await _applicationUserService.GetByIdAsync(g.OwnerId)
-            }).ToList();
+            }));
+
+            return result;
         }
 
         public async Task<GameOfferDTO?> GetByIdAsync(int id)

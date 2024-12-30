@@ -30,7 +30,7 @@ namespace Application.Services.Classes
         public async Task<IEnumerable<GameLeasedDTO?>> GetAllAsync()
         {
             var gameLeased = await _repository.GetAllAsync();
-            return (IEnumerable<GameLeasedDTO?>)gameLeased.Select(async g => new GameLeasedDTO
+            var result = await Task.WhenAll(gameLeased.Select(async g => new GameLeasedDTO
             {
 	            Id = g.Id,
 				DateFrom = DateOnly.FromDateTime(g.DateFrom),
@@ -40,7 +40,8 @@ namespace Application.Services.Classes
                 GameOffer = await _gameOfferService.GetByIdAsync(g.GameOfferId),
                 Renter = await _applicationUserService.GetByIdAsync(g.RenterId),
                 Game = await _gameService.GetByIdAsync(g.GameId)
-            }).ToList();
+            }));
+            return result;
         }
 
         public async Task<GameLeasedDTO?> GetByIdAsync(int id)
