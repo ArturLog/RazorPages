@@ -18,7 +18,7 @@ namespace Infrastructure.Data
         {
             services.AddSingleton<DbConnection, SqliteConnection>(serviceProvider =>
             {
-                var connection = new SqliteConnection(@"Data Source=C:\Users\artur\Desktop\Studia\Sem7\RAI\RazorPages\RazorPages\GameRental\Infrastructure\sqlite.db");
+                var connection = new SqliteConnection(@"DataSource=C:/Users/Artur/Desktop/Studia/RazorPages/GameRental/Infrastructure/sqlite.db");//"Data Source=C:\Users\artur\Desktop\Studia\Sem7\RAI\RazorPages\RazorPages\GameRental\Infrastructure\sqlite.db");
                 connection.Open();
                 return connection;
             });
