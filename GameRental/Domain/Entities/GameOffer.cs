@@ -15,12 +15,10 @@ namespace Domain.Entities
         [Range(1, int.MaxValue)]
         public int Amount { get; set; }
 
-        [Required]
         public string OwnerId { get; set; }
         [ForeignKey("OwnerId")]
         public ApplicationUser Owner { get; set; }
 
-        [Required]
         public int GameId { get; set; }
 
         [ForeignKey("GameId")]
