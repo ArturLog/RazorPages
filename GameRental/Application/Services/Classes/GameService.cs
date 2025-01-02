@@ -2,6 +2,7 @@
 using Application.Services.Interfaces;
 using Domain.Entities;
 using Domain.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Application.Services.Classes
 {
@@ -77,12 +78,14 @@ namespace Application.Services.Classes
                 Title = gameDto.Title,
                 Image = gameDto.Image,
                 Description = gameDto.Description,
-                ReleaseDate = gameDto.ReleaseDate.HasValue ? gameDto.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null
+                ReleaseDate = gameDto.ReleaseDate.HasValue ? gameDto.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null,
+                Genres = []
             };
             if (gameDto.Genres.Any())
             {
+                var existingGame = await _gameRepository.GetByIdAsync(gameDto.Id);
                 var existingGenres = await _genreRepository.GetAllAsync();
-                game.Genres.Clear();
+                existingGame.Genres.Clear();
                 game.Genres = existingGenres.Where(genre => gameDto.Genres.Any(genreDto => genreDto.Id == genre.Id)).ToList();
             }
             else

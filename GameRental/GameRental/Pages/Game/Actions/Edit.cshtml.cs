@@ -42,14 +42,14 @@ namespace GameRental.Pages.Game.Actions
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            foreach (var genreId in SelectedGenresIds)
             {
-                return Page();
+                var genre = await _genreService.GetByIdAsync(genreId);
+                if (genre != null)
+                {
+                    Game.Genres.Add(genre);
+                }
             }
-
-            Game.Genres = SelectedGenresIds
-                .Select(genreId => new GenreDTO { Id = genreId })
-                .ToList();
 
             if (UploadedImage != null && UploadedImage.Length > 0)
             {
@@ -58,6 +58,12 @@ namespace GameRental.Pages.Game.Actions
                     await UploadedImage.CopyToAsync(memoryStream);
                     Game.Image = memoryStream.ToArray();
                 }
+            }
+
+            ModelState.ClearValidationState(nameof(Game));
+            if (!TryValidateModel(Game, nameof(Game)))
+            {
+                return Page();
             }
 
             await _gameService.UpdateAsync(Game);
