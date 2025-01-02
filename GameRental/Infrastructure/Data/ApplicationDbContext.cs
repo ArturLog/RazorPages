@@ -3,6 +3,7 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 
 namespace Infrastructure.Data
@@ -11,6 +12,7 @@ namespace Infrastructure.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
         public ApplicationDbContext() { }
+        ChangeTracker ChangeTracker => base.ChangeTracker;
         public DbSet<Game> Games { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<GameLeased> GamesLeased { get; set; }
@@ -39,11 +41,6 @@ namespace Infrastructure.Data
                 .WithOne(o => o.Owner)
                 .OnDelete(DeleteBehavior.SetNull);
 
-
-            builder.Entity<Game>()
-                .HasMany(g => g.Leases)
-                .WithOne(l => l.Game)
-                .OnDelete(DeleteBehavior.SetNull);
             builder.Entity<Game>()
                 .HasMany(g => g.Offers)
                 .WithOne(o => o.Game)
