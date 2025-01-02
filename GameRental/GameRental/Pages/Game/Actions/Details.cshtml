@@ -23,10 +23,6 @@
                 @Html.DisplayNameFor(model => model.Game.Genres)
             </dt>
             <dd class="col-sm-8">
-			@foreach (var genre in Model.Game.Genres)
-            {
-                @genre.Name
-            }
             @if (Model.Game.Genres.Any())
             {
                 <ul>
