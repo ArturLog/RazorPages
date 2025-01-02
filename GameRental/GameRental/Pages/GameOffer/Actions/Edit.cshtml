@@ -1,4 +1,64 @@
 ﻿@page
 @model GameRental.Pages.GameOffer.EditModel
-@{
+
+<div class="container mt-4">
+    <h1 class="mb-4">Edit game offer</h1>
+
+    <h4>Game offer number @Model.GameOffer.Id</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                <input type="hidden" asp-for="GameOffer.Id" />
+                <input type="hidden" asp-for="GameOffer.GameId" />
+                <input type="hidden" asp-for="GameOffer.OwnerId" />
+
+                <div class="form-group">
+                    <label asp-for="GameOffer.Price" class="form-label">
+                        Price <span class="text-danger">*</span>
+                    </label>
+                    <input asp-for="GameOffer.Price" class="form-control" />
+                    <span asp-validation-for="GameOffer.Price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="GameOffer.Amount" class="form-label">
+                        Amount <span class="text-danger">*</span>
+                    </label>
+                    <input asp-for="GameOffer.Amount" class="form-control" />
+                    <span asp-validation-for="GameOffer.Amount" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label class="form-label">Select a game<span class="text-danger">*</span></label>
+                    <div>
+                        @for (var i = 0; i < Model.Games.Count(); i++)
+                        {
+                            var game = Model.Games.ElementAt(i);
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="SelectedGameId" value="@game.Id" id="game_@game.Id"
+                                       @(game.Id == Model.GameOffer.GameId  ? "checked" : "") />
+                                <label class="form-check-label" for="game_@game.Id">
+                                    @game.Title
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <span asp-validation-for="GameOffer.GameId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3 d-flex justify-content-between">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <a asp-page="/GameOffer/Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

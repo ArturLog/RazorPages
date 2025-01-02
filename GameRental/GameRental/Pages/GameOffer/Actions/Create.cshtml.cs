@@ -17,46 +17,40 @@ namespace GameRental.Pages.GameOffer
             _applicationUserService = applicationUserService;
             _gameOfferService = gameOfferService;
         }
-
         [BindProperty]
         public GameOfferDTO GameOffer { get; set; } = default!;
-
         [BindProperty]
+
         public IEnumerable<GameDTO?> Games { get; set; } = default!;
-        public IEnumerable<ApplicationUserDTO?> Users { get; set; } = default!;
 
         [BindProperty]
         public int SelectedGameId { get; set; } = default!;
 
-        [BindProperty]
-        public int SelectedRenterId { get; set; } = default!;
-
         public async Task<IActionResult> OnGet()
         {
             Games = await _gameService.GetAllAsync();
-            Users = await _applicationUserService.GetAllAsync();
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
         {
-
+            GameOffer.GameId = SelectedGameId;
             GameOffer.Game = await _gameService.GetByIdAsync(SelectedGameId);
             if(GameOffer.Game == null)
             {
                 ModelState.AddModelError("GameOffer.Game", "The selected game could not be found.");
-                return Page();
             }
-                
+
 
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            GameOffer.OwnerId = userId;
             GameOffer.Owner = await _applicationUserService.GetByIdAsync(userId);
             if (GameOffer.Owner == null)
             {
                 ModelState.AddModelError("GameOffer.Owner", "The user could not be found.");
-                return Page();
             }
 
-            if (!ModelState.IsValid)
+            ModelState.ClearValidationState(nameof(GameOffer));
+            if (!TryValidateModel(GameOffer, nameof(GameOffer)))
             {
                 return Page();
             }

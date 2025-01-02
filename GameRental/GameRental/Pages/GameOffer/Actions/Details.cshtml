@@ -1,4 +1,67 @@
 ﻿@page
 @model GameRental.Pages.GameOffer.DetailsModel
-@{
-}
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>Game offer number @Model.GameOffer.Id</h2>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.GameOffer.Price)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GameOffer.Price)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.GameOffer.Amount)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GameOffer.Amount)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.GameOffer.Game.Title)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GameOffer.Game.Title)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.GameOffer.Game.Genres)
+            </dt>
+            <dd class="col-sm-8">
+                @if (Model.GameOffer.Game.Genres.Any())
+                {
+                    <ul>
+                        @foreach (var genre in Model.GameOffer.Game.Genres)
+                        {
+                            <li>@genre.Name</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <span>No Genres</span>
+                }
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.GameOffer.Owner.Email)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GameOffer.Owner.Email)
+            </dd>
+        </dl>
+        <div>
+            <a asp-page="/GameOffer/Actions/Edit" asp-route-id="@Model.GameOffer.Id" class="btn btn-warning">Edit</a>
+            <a asp-page="/GameOffer/Actions/Delete" asp-route-id="@Model.GameOffer.Id" class="btn btn-danger">Delete</a>
+            <a asp-page="/GameOffer/Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+    <div class="col-md-4 d-flex align-items-center justify-content-center">
+        @if (Model.GameOffer.Game.Image != null)
+        {
+            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.GameOffer.Game.Image)"
+                 alt="Game image"
+                 width="400" height="400" 
+                 style="object-fit: cover; border-radius: 10px;" />
+        }
+    </div>
+</div>
