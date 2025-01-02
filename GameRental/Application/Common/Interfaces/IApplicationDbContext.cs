@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Application.Common.Interfaces
 {
@@ -11,6 +12,7 @@ namespace Application.Common.Interfaces
         public DbSet<GameLeased> GamesLeased { get; set; }
         public DbSet<GameOffer> GamesOffered { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        ChangeTracker ChangeTracker { get; }
         Task<Guid> SaveChangesAsync();
     }
 }

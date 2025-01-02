@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Application.ModelsDTO
 {
@@ -9,13 +10,13 @@ namespace Application.ModelsDTO
         [Required(ErrorMessage = "Leased date from is required")]
         [DataType(DataType.Date)]
         [Display(Name = "Leased date from")]
-        [DisplayFormat(DataFormatString = "0:yyyy-MM-dd", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateOnly DateFrom { get; set; }
 
         [Required(ErrorMessage = "Leased date to is required")]
         [DataType(DataType.Date)]
         [Display(Name = "Leased date to")]
-        [DisplayFormat(DataFormatString = "0:yyyy-MM-dd", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateOnly DateTo { get; set; }
 
         [Required(ErrorMessage = "Game price is required")]
@@ -25,16 +26,16 @@ namespace Application.ModelsDTO
         [Required(ErrorMessage = "Leased active flag is required")]
         public bool Active { get; set; }
 
-        [Required(ErrorMessage = "Game is required")]
-        [Display(Name = "Game")]
-        public GameDTO Game { get; set; }
-
         [Required(ErrorMessage = "Game offer is required")]
         [Display(Name = "Game offer")]
+        public int GameOfferId { get; set; }
+        [ValidateNever]
         public GameOfferDTO GameOffer { get; set; }
 
         [Required(ErrorMessage = "Renter is required")]
         [Display(Name = "Renter")]
+        public string RenterId { get; set; }
+        [ValidateNever]
         public ApplicationUserDTO Renter { get; set; }
     }
 }
