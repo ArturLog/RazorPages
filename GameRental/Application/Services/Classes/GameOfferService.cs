@@ -8,16 +8,12 @@ namespace Application.Services.Classes
     public class GameOfferService : IGameOfferService
     {
         private readonly IGameOfferRepository _gameOfferRepository;
-        private readonly IGameRepository _gameRepository;
-        private readonly IApplicationUserRepository _userRepository;
 
         private readonly IGameService _gameService;
         private readonly IApplicationUserService _applicationUserService;
         public GameOfferService(IGameOfferRepository gameOfferRepository, IGameRepository gameRepository, IApplicationUserRepository userRepository, IGameService gameService, IApplicationUserService applicationUserService)
         {
             _gameOfferRepository = gameOfferRepository;
-            _userRepository = userRepository;
-            _gameRepository = gameRepository;
 
             _gameService = gameService;
             _applicationUserService = applicationUserService;
@@ -31,6 +27,8 @@ namespace Application.Services.Classes
                 Id = g.Id,
                 Price = g.Price,
                 Amount = g.Amount,
+                GameId = g.GameId,
+                OwnerId = g.OwnerId,
                 Game = await _gameService.GetByIdAsync(g.GameId),
                 Owner = await _applicationUserService.GetByIdAsync(g.OwnerId)
             }));
@@ -46,6 +44,8 @@ namespace Application.Services.Classes
                 Id = gameOffer.Id,
                 Price = gameOffer.Price,
                 Amount = gameOffer.Amount,
+                GameId = gameOffer.GameId,
+                OwnerId = gameOffer.OwnerId,
                 Game = await _gameService.GetByIdAsync(gameOffer.GameId),
                 Owner = await _applicationUserService.GetByIdAsync(gameOffer.OwnerId)
             } : null;
@@ -53,29 +53,25 @@ namespace Application.Services.Classes
 
         public async Task AddAsync(GameOfferDTO gameOfferDto)
         {
-            var existingGames = await _gameRepository.GetAllAsync();
-            var existingUsers = await _userRepository.GetAllAsync();
             var gameOffer = new GameOffer
             {
                 Price = gameOfferDto.Price,
                 Amount = gameOfferDto.Amount,
-                Game = existingGames.Where(game => gameOfferDto.Game.Id == game.Id).FirstOrDefault(),
-                Owner = existingUsers.Where(user => gameOfferDto.Owner.Id == user.Id).FirstOrDefault()
+                GameId = gameOfferDto.GameId,
+                OwnerId = gameOfferDto.OwnerId,
             };
             await _gameOfferRepository.AddAsync(gameOffer);
         }
 
         public async Task UpdateAsync(GameOfferDTO gameOfferDto)
         {
-            var existingGames = await _gameRepository.GetAllAsync();
-            var existingUsers = await _userRepository.GetAllAsync();
             var gameOffer = new GameOffer
             {
                 Id = gameOfferDto.Id,
                 Price = gameOfferDto.Price,
                 Amount = gameOfferDto.Amount,
-                Game = existingGames.Where(game => gameOfferDto.Game.Id == game.Id).FirstOrDefault(),
-                Owner = existingUsers.Where(user => gameOfferDto.Owner.Id == user.Id).FirstOrDefault()
+                GameId = gameOfferDto.GameId,
+                OwnerId = gameOfferDto.OwnerId,
             };
             await _gameOfferRepository.UpdateAsync(gameOffer);
         }
