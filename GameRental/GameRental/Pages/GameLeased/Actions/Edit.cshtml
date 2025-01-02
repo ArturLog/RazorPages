@@ -1,4 +1,49 @@
 ﻿@page
 @model GameRental.Pages.GameLeased.EditModel
-@{
+
+
+<div class="container mt-4">
+    <h1 class="mb-4">Edit game leased</h1>
+
+    <h4>Game leased number @Model.GameLeased.Id</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                <input type="hidden" asp-for="GameLeased.Id" />
+                <input type="hidden" asp-for="GameLeased.RenterId" />
+                <input type="hidden" asp-for="GameLeased.GameOfferId" />
+                <input type="hidden" asp-for="GameLeased.DateFrom" />
+                <input type="hidden" asp-for="GameLeased.Price" />
+
+                <div class="form-group">
+                    <label asp-for="GameLeased.Active" class="form-label">
+                        Active <span class="text-danger">*</span>
+                    </label>
+                    <input asp-for="GameLeased.Active" class="form-check-input" type="checkbox" />
+                    <span asp-validation-for="GameLeased.Active" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="GameLeased.DateTo" class="form-label">
+                        Date to
+                    </label>
+                    <input asp-for="GameLeased.DateTo" class="form-control" />
+                    <span asp-validation-for="GameLeased.DateTo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3 d-flex justify-content-between">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <a asp-page="/GameLeased/Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

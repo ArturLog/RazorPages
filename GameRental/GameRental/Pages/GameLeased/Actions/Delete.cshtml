@@ -1,4 +1,60 @@
 ﻿@page
 @model GameRental.Pages.GameLeased.DeleteModel
-@{
-}
+
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Game offer number @Model.GameLeased.Id</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.GameLeased.GameOffer.Game.Title)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.GameLeased.GameOffer.Game.Title)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.GameLeased.Price)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.GameLeased.Price)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.GameLeased.DateFrom)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.GameLeased.DateFrom)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.GameLeased.DateTo)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.GameLeased.DateTo)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.GameLeased.Active)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.GameLeased.Active)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.GameLeased.Renter)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.GameLeased.Renter.Email)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.GameLeased.GameOffer.Owner)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.GameLeased.GameOffer.Owner.Email)
+        </dd>
+    </dl>
+    <form method="post">
+        <input type="hidden" asp-for="GameLeased.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-page="/GameLeased/Index" class="btn btn-secondary">Back to list</a>
+    </form>
+</div>

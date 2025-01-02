@@ -1,4 +1,68 @@
 ﻿@page
 @model GameRental.Pages.GameLeased.DetailsModel
-@{
-}
+
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>Game leased number @Model.GameLeased.Id</h2>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.GameLeased.GameOffer.Game.Title)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GameLeased.GameOffer.Game.Title)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.GameLeased.Price)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GameLeased.Price)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.GameLeased.DateFrom)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GameLeased.DateFrom)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.GameLeased.DateTo)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GameLeased.DateTo)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.GameLeased.Active)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GameLeased.Active)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.GameLeased.Renter)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GameLeased.Renter.Email)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.GameLeased.GameOffer.Owner)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GameLeased.GameOffer.Owner.Email)
+            </dd>
+        </dl>
+        <div>
+            <a asp-page="/GameLeased/Actions/Edit" asp-route-id="@Model.GameLeased.Id" class="btn btn-warning">Edit</a>
+            <a asp-page="/GameLeased/Actions/Delete" asp-route-id="@Model.GameLeased.Id" class="btn btn-danger">Delete</a>
+            <a asp-page="/GameLeased/Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+    <div class="col-md-4 d-flex align-items-center justify-content-center">
+        @if (Model.GameLeased.GameOffer.Game.Image != null)
+        {
+            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.GameLeased.GameOffer.Game.Image)"
+                 alt="Game image"
+                 width="400" height="400"
+                 style="object-fit: cover; border-radius: 10px;" />
+        }
+    </div>
+</div>

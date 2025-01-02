@@ -9,11 +9,10 @@
     <thead>
         <tr>
             <th>Id</th>
-            <th>Price</th>
-            <th>Active</th>
             <th>Game</th>
-            <th>Renter</th>
             <th>Price</th>
+            <th>Renter</th>
+            <th>Active</th>
         </tr>
     </thead>
     <tbody>
@@ -21,11 +20,10 @@
         {
             <tr>
                 <td>@leasedGame.Id</td>
+                <td>@leasedGame.GameOffer.Game.Title</td>
                 <td>@leasedGame.Price</td>
-                <td>@leasedGame.Active</td>
-                <td>@leasedGame.Game.Title</td>
                 <td>@leasedGame.Renter.Email</td>
-                <td>@leasedGame.GameOffer.Price</td>
+                <td>@leasedGame.Active</td>
                 <td>
                     <a asp-page="/GameLeased/Actions/Details" asp-route-id="@leasedGame.Id" class="btn btn-info">Details</a>
                     <a asp-page="/GameLeased/Actions/Edit" asp-route-id="@leasedGame.Id" class="btn btn-warning">Edit</a>

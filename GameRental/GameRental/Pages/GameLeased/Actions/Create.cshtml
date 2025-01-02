@@ -1,4 +1,64 @@
 ﻿@page
 @model GameRental.Pages.GameLeased.CreateModel
-@{
+
+
+<div class="container mt-4">
+    <h1 class="mb-4">Leased game</h1>
+
+    <h2>Game leased</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                
+                <div class="form-group mt-3">
+                    <label class="form-label">Select an offer<span class="text-danger">*</span></label>
+                    <div>
+                        @for (var i = 0; i < Model.GameOffers.Count(); i++)
+                        {
+                            var gameOffer = Model.GameOffers.ElementAt(i);
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="SelectedGameOfferId" value="@gameOffer.Id" id="gameOffer_@gameOffer.Id"
+                                       @((i == 0 && gameOffer.Amount > 0) ? "checked" : "")
+                                       @((gameOffer.Amount <= 0) ? "disabled" : "")
+                                       />
+                                <label class="form-check-label" for="gameOffer_@gameOffer.Id">
+                                    Game: @gameOffer.Game.Title - Price: @gameOffer.Price - Amount: @gameOffer.Amount - Owner: @gameOffer.Owner.Email
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <span asp-validation-for="GameLeased.GameOffer" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="GameLeased.DateFrom" class="form-label">
+                        Date from <span class="text-danger">*</span>
+                    </label>
+                    <input asp-for="GameLeased.DateFrom" class="form-control" />
+                    <span asp-validation-for="GameLeased.DateFrom" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="GameLeased.DateTo" class="form-label">
+                        Date to <span class="text-danger">*</span>
+                    </label>
+                    <input asp-for="GameLeased.DateTo" class="form-control" />
+                    <span asp-validation-for="GameLeased.DateTo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3 d-flex justify-content-between">
+                    <input type="submit" value="Add" class="btn btn-primary" />
+                    <a asp-page="/GameLeased/Index" class="btn btn-secondary">Back to list</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
