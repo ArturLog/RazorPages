@@ -1,4 +1,6 @@
 ﻿@page
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model GameRental.Pages.GameOffer.IndexModel
 
 
@@ -20,7 +22,7 @@
         {
             <tr>
                 <td>@gameOffer.Id</td>
-                <td>@gameOffer.Price</td>
+                <td>@gameOffer.Price.ToString("N2", CultureInfo.CurrentCulture)</td>
                 <td>@gameOffer.Amount</td>
                 <td>@gameOffer.Game.Title</td>
                 <td>@gameOffer.Owner.Email</td>

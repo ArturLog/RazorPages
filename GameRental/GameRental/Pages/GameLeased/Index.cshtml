@@ -1,4 +1,5 @@
 ﻿@page
+@using System.Globalization
 @model GameRental.Pages.GameLeased.IndexModel
 
 
@@ -21,7 +22,7 @@
             <tr>
                 <td>@leasedGame.Id</td>
                 <td>@leasedGame.GameOffer.Game.Title</td>
-                <td>@leasedGame.Price</td>
+                <td>@leasedGame.Price.ToString("N2", CultureInfo.CurrentCulture)</td>
                 <td>@leasedGame.Renter.Email</td>
                 <td>@leasedGame.Active</td>
                 <td>

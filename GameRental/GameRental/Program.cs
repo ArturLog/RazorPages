@@ -44,13 +44,26 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 var supportedCultures = new[] { new
-    CultureInfo("en"), new CultureInfo("pl")};
+    CultureInfo("en-US"), new CultureInfo("pl")};
 
 app.UseRequestLocalization(new RequestLocalizationOptions
 {
-    DefaultRequestCulture = new RequestCulture("en"),
+    DefaultRequestCulture = new RequestCulture("en-US"),
     SupportedCultures = supportedCultures,
     SupportedUICultures = supportedCultures
+});
+
+app.Use(async (context, next) =>
+{
+    var cultureQuery = context.Request.Query["culture"];
+    if (!string.IsNullOrEmpty(cultureQuery))
+    {
+        var culture = new CultureInfo(cultureQuery);
+        CultureInfo.CurrentCulture = culture;
+        CultureInfo.CurrentUICulture = culture;
+    }
+
+    await next();
 });
 
 // Configure the HTTP request pipeline.
