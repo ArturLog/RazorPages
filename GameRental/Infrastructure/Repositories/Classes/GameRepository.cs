@@ -24,6 +24,12 @@ namespace Infrastructure.Repositories.Classes
 
         public async Task UpdateAsync(Game game)
         {
+            var trackedEntity = context.ChangeTracker.Entries<Game>()
+                .FirstOrDefault(e => e.Entity.Id == game.Id);
+            if (trackedEntity != null)
+            {
+                trackedEntity.State = EntityState.Detached;
+            }
             context.Games.Update(game);
             await context.SaveChangesAsync();
         }
