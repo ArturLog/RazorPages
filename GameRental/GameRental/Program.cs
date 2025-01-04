@@ -7,6 +7,8 @@ using Application.Services.Interfaces;
 using GameRental.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Domain.Entities;
+using Microsoft.Extensions.Options;
+using GameRental.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +16,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructureServices();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddLocalization();
+builder.Services.AddMvc().AddViewLocalization();
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 builder.Services.AddSingleton<IEmailSender, SendGridEmailSender>();
-builder.Services.AddMvc().AddDataAnnotationsLocalization()
-    .AddViewLocalization(options => options.ResourcesPath = "Resources");
-
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
@@ -40,18 +40,20 @@ builder.Services.AddRazorPages(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-var app = builder.Build();
+builder.Services.AddSingleton<CommonLocalizationService>();
 
 var supportedCultures = new[] { new
     CultureInfo("en-US"), new CultureInfo("pl")};
 
-app.UseRequestLocalization(new RequestLocalizationOptions
+builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    DefaultRequestCulture = new RequestCulture("en-US"),
-    SupportedCultures = supportedCultures,
-    SupportedUICultures = supportedCultures
+    options.DefaultRequestCulture = new RequestCulture("en-US");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+    options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
 });
+
+var app = builder.Build();
 
 app.Use(async (context, next) =>
 {
@@ -62,9 +64,10 @@ app.Use(async (context, next) =>
         CultureInfo.CurrentCulture = culture;
         CultureInfo.CurrentUICulture = culture;
     }
-
     await next();
 });
+
+app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -92,18 +95,27 @@ app.UseSwaggerUI();
 
 #region API
 //Endpoint for /games
-app.MapMethods("/api/games", new[] { "GET" }, async (HttpContext context, IGameService service) =>
+app.MapMethods("/api/game", new[] { "GET", "POST" }, async (HttpContext context, IGameService service) =>
 {
     if (context.Request.Method == "GET")
     {
         var games = await service.GetAllAsync();
         return Results.Ok(games);
     }
+    else if (context.Request.Method == "POST")
+    {
+        var gameDto = await context.Request.ReadFromJsonAsync<GameDTO>();
+        if (gameDto == null)
+            return Results.BadRequest("Invalid player data.");
+
+        await service.AddAsync(gameDto);
+        return Results.StatusCode(201);
+    }
     return Results.BadRequest();
 });
 
 // Endpoint for /games/{id} (handles GET, PUT, DELETE)
-app.MapMethods("/api/games/{id:int}", new[] { "GET", "PUT", "DELETE" }, async (HttpContext context, int id, IGameService service) =>
+app.MapMethods("/api/game/{id:int}", new[] { "GET", "PUT", "DELETE" }, async (HttpContext context, int id, IGameService service) =>
 {
     if (context.Request.Method == "GET")
     {
@@ -128,12 +140,21 @@ app.MapMethods("/api/games/{id:int}", new[] { "GET", "PUT", "DELETE" }, async (H
 });
 
 //Endpoint for /genre
-app.MapMethods("/api/genre", new[] { "GET" }, async (HttpContext context, IGenreService service) =>
+app.MapMethods("/api/genre", new[] { "GET", "POST" }, async (HttpContext context, IGenreService service) =>
 {
     if (context.Request.Method == "GET")
     {
         var genre = await service.GetAllAsync();
         return Results.Ok(genre);
+    }
+    else if (context.Request.Method == "POST")
+    {
+        var genreDto = await context.Request.ReadFromJsonAsync<GenreDTO>();
+        if (genreDto == null)
+            return Results.BadRequest("Invalid player data.");
+
+        await service.AddAsync(genreDto);
+        return Results.StatusCode(201);
     }
     return Results.BadRequest();
 });
@@ -164,12 +185,21 @@ app.MapMethods("/api/genre/{id:int}", new[] { "GET", "PUT", "DELETE" }, async (H
 });
 
 //Endpoint for /gameOffer
-app.MapMethods("/api/gameOffer", new[] { "GET" }, async (HttpContext context, IGameOfferService service) =>
+app.MapMethods("/api/gameOffer", new[] { "GET", "POST" }, async (HttpContext context, IGameOfferService service) =>
 {
     if (context.Request.Method == "GET")
     {
         var gameOffer = await service.GetAllAsync();
         return Results.Ok(gameOffer);
+    }
+    else if (context.Request.Method == "POST")
+    {
+        var gameOfferDto = await context.Request.ReadFromJsonAsync<GameOfferDTO>();
+        if (gameOfferDto == null)
+            return Results.BadRequest("Invalid player data.");
+
+        await service.AddAsync(gameOfferDto);
+        return Results.StatusCode(201);
     }
     return Results.BadRequest();
 });
@@ -200,12 +230,21 @@ app.MapMethods("/api/gameOffer/{id:int}", new[] { "GET", "PUT", "DELETE" }, asyn
 });
 
 //Endpoint for /gameLeased
-app.MapMethods("/api/gameLeased", new[] { "GET" }, async (HttpContext context, IGameLeasedService service) =>
+app.MapMethods("/api/gameLeased", new[] { "GET", "POST" }, async (HttpContext context, IGameLeasedService service) =>
 {
     if (context.Request.Method == "GET")
     {
         var gameLeased = await service.GetAllAsync();
         return Results.Ok(gameLeased);
+    }
+    else if (context.Request.Method == "POST")
+    {
+        var gameLeasedDto = await context.Request.ReadFromJsonAsync<GameLeasedDTO>();
+        if (gameLeasedDto == null)
+            return Results.BadRequest("Invalid player data.");
+
+        await service.AddAsync(gameLeasedDto);
+        return Results.StatusCode(201);
     }
     return Results.BadRequest();
 });

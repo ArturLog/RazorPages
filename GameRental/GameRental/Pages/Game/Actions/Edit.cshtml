@@ -44,7 +44,7 @@
                             <div class="form-check">
                                 @if (Model.Game.Genres.Contains(genre))
                                 {
-                                    <input class="form-check-input" type="checkbox" name="SelectedGenresIds" value="@genre.Id" id="genre_@genre.Id" checked />
+                                    <input class="form-check-input" type="checkbox" name="SelectedGenresIds" value="@genre.Id" id="genre_@genre.Id"/>
                                 }
                                 else
                                 {

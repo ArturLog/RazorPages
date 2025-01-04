@@ -1,63 +1,85 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
+﻿@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@inject IViewLocalizer Localizer
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<IndexModel> localizer
+@inject IHtmlLocalizer<IndexModel> htmlLocalizer
+
 
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - @Localizer["GameRental"]</title>
+    <title>@ViewData["Title"] - @localizer["GameRental"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GameRental.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">@Localizer["GameRental"]</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Genre/Index">@Localizer["Genres"]</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Game/Index">@Localizer["Games"]</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/GameOffer/Index">@Localizer["GameOffers"]</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/GameLeased/Index">@Localizer["GameLeased"]</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
-            &copy; 2024 - @Localizer["GameRental"]
-            <a href="?culture=en-US">@Localizer["English"]</a> | <a href="?culture=pl">@Localizer["Polish"]</a>
+            <a class="navbar-brand" asp-area="" asp-page="/Index">@localizer["GameRental"]</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Genre/Index">@localizer["Genres"]</a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Game/Index">@localizer["Games"]</a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/GameOffer/Index">@localizer["GameOffers"]</a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/GameLeased/Index">@localizer["GameLeased"]</a>
+                    </li>
+                </ul>
+                <partial name="_LoginPartial" />
+            </div>
         </div>
-    </footer>
+    </nav>
+</header>
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; 2024 - @localizer["GameRental"]
+        <a href="#" onclick="setCulture('en-US')">@localizer["English"]</a> |
+        <a href="#" onclick="setCulture('pl')">@localizer["Polish"]</a>
+    </div>
+</footer>
 
-    @await RenderSectionAsync("Scripts", required: false)
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script>
+    function setCulture(culture) {
+        document.cookie = `.AspNetCore.Culture=c=${culture}|uic=${culture}; path=/`;
+        location.reload();
+    }
+</script>
+
+<script>
+    $.validator.methods.range = function (value, element, param) {
+        var globalizedValue = value.replace(",", ".");
+        return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+    };
+
+    $.validator.methods.number = function (value, element) {
+        var globalizedValue = value.replace(",", ".");
+        return this.optional(element) || !isNaN(globalizedValue);
+    };
+</script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
